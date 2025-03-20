@@ -38,16 +38,21 @@ jobs:
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
           
           # Ensure Nginx config is included
-          mkdir -p .platform/nginx/conf.d
+          mkdir -p .platform/nginx/conf.d .platform/hooks/postdeploy
           echo 'server {
               listen 80;
               server_name _;
+              root /var/app/current/dist;
+              index index.html;
               location / {
-                  root /var/app/current/dist;
-                  index index.html;
                   try_files $uri /index.html;
               }
           }' > .platform/nginx/conf.d/proxy.conf
+          
+          # Ensure Nginx restarts after deployment
+          echo '#!/bin/bash
+          service nginx restart' > .platform/hooks/postdeploy/00_restart_nginx.sh
+          chmod +x .platform/hooks/postdeploy/00_restart_nginx.sh
           
           zip -r deploy.zip .ebextensions .platform dist package.json server.js
 
