@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install Dependencies
         run: npm install
@@ -33,9 +34,13 @@ jobs:
 
       - name: Package Build Artifacts
         run: |
-          VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"  # Example: v20250319173045
+          VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
-          zip -r deploy.zip .ebextensions build package.json server.js
+          mkdir deploy
+          cp -r dist .ebextensions package.json server.js deploy/
+          cd deploy
+          zip -r ../deploy.zip .
+          cd ..
 
       - name: Upload to S3
         run: aws s3 cp deploy.zip s3://personalwebsite-bucket/deploy-frontend-$VERSION_LABEL.zip
