@@ -36,11 +36,8 @@ jobs:
         run: |
           VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
-          mkdir deploy
-          cp -r dist .ebextensions package.json server.js deploy/
-          cd deploy
-          zip -r ../deploy.zip .
-          cd ..
+          zip -r deploy.zip .ebextensions dist package.json server.js
+
 
       - name: Upload to S3
         run: aws s3 cp deploy.zip s3://personalwebsite-bucket/deploy-frontend-$VERSION_LABEL.zip
