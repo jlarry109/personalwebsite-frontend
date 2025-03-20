@@ -1,0 +1,50 @@
+name: Deploy Personal Website Frontend to AWS Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Package Build Artifacts
+        run: |
+          VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"  # Example: v20250319173045
+          echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
+          zip -r deploy.zip .ebextensions build package.json server.js
+
+      - name: Upload to S3
+        run: aws s3 cp deploy.zip s3://personalwebsite-bucket/deploy-$VERSION_LABEL.zip
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk create-application-version --application-name personalwebsite-frontend \
+            --version-label "$VERSION_LABEL" \
+            --source-bundle S3Bucket="personalwebsite-bucket",S3Key="deploy-$VERSION_LABEL.zip"
+
+          aws elasticbeanstalk update-environment --environment-name personalwebsite-frontend-env \
+            --version-label "$VERSION_LABEL"
