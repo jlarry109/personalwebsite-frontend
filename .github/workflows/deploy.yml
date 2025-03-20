@@ -38,13 +38,13 @@ jobs:
           zip -r deploy.zip .ebextensions build package.json server.js
 
       - name: Upload to S3
-        run: aws s3 cp deploy.zip s3://personalwebsite-bucket/deploy-$VERSION_LABEL.zip
+        run: aws s3 cp deploy.zip s3://personalwebsite-bucket/deploy-frontend-$VERSION_LABEL.zip
 
       - name: Deploy to Elastic Beanstalk
         run: |
           aws elasticbeanstalk create-application-version --application-name personalwebsite-frontend \
             --version-label "$VERSION_LABEL" \
-            --source-bundle S3Bucket="personalwebsite-bucket",S3Key="deploy-$VERSION_LABEL.zip"
+            --source-bundle S3Bucket="personalwebsite-bucket",S3Key="deploy-frontend-$VERSION_LABEL.zip"
 
           aws elasticbeanstalk update-environment --environment-name personalwebsite-frontend-env \
             --version-label "$VERSION_LABEL"
