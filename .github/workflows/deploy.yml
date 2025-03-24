@@ -32,7 +32,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Package Build Artifacts
+      - name: Prepare Deployment Package
         run: |
           VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
@@ -51,10 +51,13 @@ jobs:
           
           # Ensure Nginx restarts after deployment
           echo '#!/bin/bash
-          service nginx restart' > .platform/hooks/postdeploy/00_restart_nginx.sh
+          sudo systemctl restart nginx' > .platform/hooks/postdeploy/00_restart_nginx.sh
           chmod +x .platform/hooks/postdeploy/00_restart_nginx.sh
           
-          zip -r deploy.zip .ebextensions .platform dist package.json server.js
+          zip -r deploy.zip .ebextensions .platform dist package.json
+
+      - name: Verify Build Artifacts
+        run: ls -R .platform dist
 
       - name: Upload to S3
         run: aws s3 cp deploy.zip s3://personalwebsite-bucket/
