@@ -36,28 +36,12 @@ jobs:
         run: |
           VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
-          
-          # Ensure Nginx config is included
-          mkdir -p .platform/nginx/conf.d .platform/hooks/postdeploy
-          echo 'server {
-              listen 80;
-              server_name _;
-              root /var/app/current/dist;
-              index index.html;
-              location / {
-                  try_files $uri /index.html;
-              }
-          }' > .platform/nginx/conf.d/proxy.conf
-          
-          # Ensure Nginx restarts after deployment
-          echo '#!/bin/bash
-          sudo systemctl restart nginx' > .platform/hooks/postdeploy/00_restart_nginx.sh
-          chmod +x .platform/hooks/postdeploy/00_restart_nginx.sh
-          
-          zip -r deploy.zip .ebextensions .platform dist package.json
+
+          # Package only the necessary files
+          zip -r deploy.zip dist package.json
 
       - name: Verify Build Artifacts
-        run: ls -R .platform dist
+        run: ls -R dist
 
       - name: Upload to S3
         run: aws s3 cp deploy.zip s3://personalwebsite-frontend-bucket/
