@@ -60,13 +60,15 @@ jobs:
         run: ls -R .platform dist
 
       - name: Upload to S3
-        run: aws s3 cp deploy.zip s3://personalwebsite-bucket/
+        run: aws s3 cp deploy.zip s3://personalwebsite-frontend-bucket/
 
       - name: Deploy to Elastic Beanstalk
         run: |
           aws elasticbeanstalk create-application-version --application-name personalwebsite-frontend \
             --version-label "$VERSION_LABEL" \
-            --source-bundle S3Bucket="personalwebsite-bucket",S3Key="deploy.zip"
+            --source-bundle S3Bucket="personalwebsite-frontend-bucket",S3Key="deploy.zip"
 
-          aws elasticbeanstalk update-environment --environment-name personalwebsite-frontend-env \
+          aws elasticbeanstalk update-environment --environment-name Personalwebsite-frontend-env \
             --version-label "$VERSION_LABEL"
+			
+			
