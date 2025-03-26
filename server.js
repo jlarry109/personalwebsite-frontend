@@ -1,5 +1,10 @@
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -8,10 +13,17 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle all requests by serving the index.html file
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+  try {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+  } catch (error) {
+    console.error('Error while sending index.html:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
+// Set the port dynamically, or fallback to 8080
 const port = process.env.PORT || 8080;
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

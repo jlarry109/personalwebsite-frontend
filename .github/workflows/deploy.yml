@@ -52,5 +52,5 @@ jobs:
             --version-label "$VERSION_LABEL" \
             --source-bundle S3Bucket="personalwebsite-frontend-bucket",S3Key="deploy.zip"
 
-          aws elasticbeanstalk update-environment --environment-name Personalwebsite-frontend-env \
+          aws elasticbeanstalk update-environment --environment-name personalwebsite-frontend-env \
             --version-label "$VERSION_LABEL"
