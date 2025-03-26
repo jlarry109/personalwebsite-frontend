@@ -40,8 +40,7 @@ export default {
       }
     },
     formatDate(dateString) {
-      const options = { year: "numeric", month: "long" };
-      return new Date(dateString).toLocaleDateString(undefined, options);
+      return new Date(dateString).toLocaleDateString();
     }
   },
   mounted() {
