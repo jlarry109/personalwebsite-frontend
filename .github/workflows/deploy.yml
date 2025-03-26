@@ -37,8 +37,8 @@ jobs:
           VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
 
-          # Package only the necessary files
-          zip -r deploy.zip dist package.json
+          # Package the dist folder and the server.js file for deployment
+          zip -r deploy.zip dist server.js package.json
 
       - name: Verify Build Artifacts
         run: ls -R dist
