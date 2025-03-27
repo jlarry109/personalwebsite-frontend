@@ -38,7 +38,7 @@ jobs:
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
 
           # Package the dist folder and the server.js file for deployment
-          zip -r deploy.zip dist server.js package.json
+          zip -r deploy.zip dist server.cjs package.json
 
       - name: Verify Build Artifacts
         run: ls -R dist
