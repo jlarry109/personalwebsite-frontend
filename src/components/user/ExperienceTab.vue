@@ -1,25 +1,34 @@
 <template>
-  <div class="experience">
-    <h2>Work Experience</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <ul v-else>
-      <li v-for="exp in experiences" :key="exp.id" class="experience-item">
-        <h3>{{ exp.position }} at {{ exp.companyName }}</h3>
-        <p>{{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : 'Present' }}</p>
-        <p>{{ exp.description }}</p>
-        <ul>
-          <li v-for="detail in exp.details" :key="detail.id">{{ detail.taskDescription }}</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+  <BaseTab title="Work Experience">
+    <template v-if="loading">Loading...</template>
+    <template v-else-if="error">
+      <div class="error">{{ error }}</div>
+    </template>
+    <template v-else>
+      <div class="experience-list">
+        <div v-for="exp in experiences" :key="exp.id" class="experience-card">
+          <h3>{{ exp.position }} at {{ exp.companyName }}</h3>
+          <p class="dates">
+            {{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : "Present" }}
+          </p>
+          <p class="description">{{ exp.description }}</p>
+          <ul class="task-list">
+            <li v-for="detail in exp.details" :key="detail.id">
+              {{ detail.taskDescription }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>
+  </BaseTab>
 </template>
 
 <script>
 import axios from "axios";
+import BaseTab from "@/components/BaseTab.vue";
 
 export default {
+  components: { BaseTab },
   data() {
     return {
       experiences: [],
@@ -41,7 +50,7 @@ export default {
     },
     formatDate(dateString) {
       return new Date(dateString).toLocaleDateString();
-    }
+    },
   },
   mounted() {
     this.fetchExperiences();
@@ -50,25 +59,66 @@ export default {
 </script>
 
 <style scoped>
-.experience {
-  max-width: 800px;
-  margin: auto;
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.experience-card {
+  background: white;
   padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
 }
-ul {
-  list-style: none;
-  padding: 0;
+
+.experience-card:hover {
+  transform: translateY(-3px);
 }
-li {
-  background: #f9f9f9;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 5px;
-}
+
 h3 {
   margin: 0;
+  font-size: 20px;
+  color: #333;
 }
+
+.dates {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.task-list li {
+  font-size: 14px;
+  color: #444;
+  padding-left: 15px;
+  position: relative;
+}
+
+.task-list li::before {
+  content: "•";
+  color: #007bff;
+  position: absolute;
+  left: 0;
+  font-size: 16px;
+}
+
 .error {
   color: red;
+  text-align: center;
+  font-size: 18px;
 }
 </style>

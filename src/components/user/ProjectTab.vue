@@ -1,30 +1,33 @@
 <template>
-  <div class="project-tab">
-    <h2>Projects</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else>
-      <div v-for="project in projects" :key="project.id" class="project-card">
-        <h3>{{ project.title }}</h3>
-        <p>{{ project.description }}</p>
-        <p><strong>Date Created:</strong> {{ formatDate(project.dateCreated) }}</p>
-        <p v-if="project.githubLink">
-          <strong>GitHub:</strong> 
-          <a :href="project.githubLink" target="_blank">{{ project.githubLink }}</a>
-        </p>
-        <p v-if="project.liveDemoLink">
-          <strong>Live Demo:</strong> 
-          <a :href="project.liveDemoLink" target="_blank">{{ project.liveDemoLink }}</a>
-        </p>
+  <BaseTab title="Projects">
+    <template #default>
+      <div v-if="loading">Loading...</div>
+      <div v-else-if="error" class="error">{{ error }}</div>
+      <div v-else>
+        <div v-for="project in projects" :key="project.id" class="project-card">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          <p><strong>Date Created:</strong> {{ formatDate(project.dateCreated) }}</p>
+          <p v-if="project.githubLink">
+            <strong>GitHub:</strong> 
+            <a :href="project.githubLink" target="_blank">{{ project.githubLink }}</a>
+          </p>
+          <p v-if="project.liveDemoLink">
+            <strong>Live Demo:</strong> 
+            <a :href="project.liveDemoLink" target="_blank">{{ project.liveDemoLink }}</a>
+          </p>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </BaseTab>
 </template>
 
 <script>
 import axios from "axios";
+import BaseTab from "@/components/BaseTab.vue";
 
 export default {
+  components: { BaseTab },
   data() {
     return {
       projects: [],
@@ -55,11 +58,6 @@ export default {
 </script>
 
 <style scoped>
-.project-tab {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-}
 .project-card {
   background: #f8f9fa;
   padding: 15px;

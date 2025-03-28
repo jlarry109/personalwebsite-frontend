@@ -1,6 +1,5 @@
 <template>
-  <div class="skill-tab">
-    <h2>Skills</h2>
+  <BaseTab title="Skills">
     <div v-if="loading">Loading...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
@@ -11,13 +10,15 @@
         </li>
       </ul>
     </div>
-  </div>
+  </BaseTab>
 </template>
 
 <script>
 import axios from "axios";
+import BaseTab from "@/components/BaseTab.vue";
 
 export default {
+  components: { BaseTab },
   data() {
     return {
       skills: [],
@@ -45,11 +46,6 @@ export default {
 </script>
 
 <style scoped>
-.skill-tab {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-}
 .skill-list {
   list-style: none;
   padding: 0;
@@ -58,14 +54,15 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 .skill-name {
   font-weight: bold;
+  color: #fff; 
 }
 .proficiency {
   font-style: italic;
-  color: #555;
+  color: rgba(255, 255, 255, 0.8);
 }
 .error {
   color: red;

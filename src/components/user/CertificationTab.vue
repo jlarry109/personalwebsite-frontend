@@ -1,25 +1,32 @@
 <template>
-  <div class="certifications">
-    <h2>Certifications</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <ul v-else>
-      <li v-for="cert in certifications" :key="cert.id">
-        <h3>{{ cert.certName }}</h3>
-        <p><strong>Issuing Organization:</strong> {{ cert.issuingOrg }}</p>
-        <p><strong>Date Earned:</strong> {{ formatDate(cert.dateEarned) }}</p>
-        <p>
-          <a v-if="cert.certUrl" :href="cert.certUrl" target="_blank">View Certification</a>
-        </p>
-      </li>
-    </ul>
-  </div>
+  <BaseTab title="Certifications">
+    <template v-if="loading">Loading...</template>
+    <template v-else-if="error">
+      <div class="error">{{ error }}</div>
+    </template>
+    <template v-else>
+      <ul class="cert-list">
+        <li v-for="cert in certifications" :key="cert.id">
+          <div class="cert-card">
+            <h3>{{ cert.certName }}</h3>
+            <p><strong>Issuing Organization:</strong> {{ cert.issuingOrg }}</p>
+            <p><strong>Date Earned:</strong> {{ formatDate(cert.dateEarned) }}</p>
+            <p v-if="cert.certUrl">
+              <a :href="cert.certUrl" target="_blank">View Certification</a>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </template>
+  </BaseTab>
 </template>
 
 <script>
 import axios from "axios";
+import BaseTab from "@/components/BaseTab.vue";
 
 export default {
+  components: { BaseTab },
   data() {
     return {
       certifications: [],
@@ -50,29 +57,50 @@ export default {
 </script>
 
 <style scoped>
-.certifications {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-}
-ul {
-  list-style: none;
+.cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 0;
 }
-li {
-  background: #f9f9f9;
+
+.cert-card {
+  background: white;
   padding: 15px;
-  margin: 10px 0;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
 }
+
+.cert-card:hover {
+  transform: translateY(-3px);
+}
+
 h3 {
   margin: 0;
+  font-size: 20px;
+  color: #333;
 }
+
+p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
 a {
   color: #007bff;
   text-decoration: none;
+  font-weight: bold;
 }
+
+a:hover {
+  text-decoration: underline;
+}
+
 .error {
   color: red;
+  text-align: center;
+  font-size: 18px;
 }
 </style>

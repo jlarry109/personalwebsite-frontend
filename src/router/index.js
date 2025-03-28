@@ -9,6 +9,7 @@ const routes = [
 
   // Separate Login page for users who want to log in
   { path: '/login', name: 'login', component: LoginView },
+	
 
   {
     path: '/admin',

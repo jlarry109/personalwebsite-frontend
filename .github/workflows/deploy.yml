@@ -37,7 +37,7 @@ jobs:
           VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
 
-          # Package the dist folder and the server.js file for deployment
+          # Package the dist folder and the server.js file for deployment => I subsequently changed server.js to server.cjs to silence the import warnings
           zip -r deploy.zip dist server.cjs package.json
 
       - name: Verify Build Artifacts

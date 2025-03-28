@@ -1,22 +1,29 @@
 <template>
-  <div class="education">
-    <h2>Education</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <ul v-else>
-      <li v-for="edu in educationHistory" :key="edu.id">
-        <h3>{{ edu.schoolName }}</h3>
-        <p><strong>Degree:</strong> {{ edu.degree }}</p>
-        <p><strong>Years Attended:</strong> {{ edu.startYear }} - {{ edu.endYear }}</p>
-      </li>
-    </ul>
-  </div>
+  <BaseTab title="Education">
+    <template v-if="loading">Loading...</template>
+    <template v-else-if="error">
+      <div class="error">{{ error }}</div>
+    </template>
+    <template v-else>
+      <ul class="edu-list">
+        <li v-for="edu in educationHistory" :key="edu.id">
+          <div class="edu-card">
+            <h3>{{ edu.schoolName }}</h3>
+            <p><strong>Degree:</strong> {{ edu.degree }}</p>
+            <p><strong>Years Attended:</strong> {{ edu.startYear }} - {{ edu.endYear }}</p>
+          </div>
+        </li>
+      </ul>
+    </template>
+  </BaseTab>
 </template>
 
 <script>
 import axios from "axios";
+import BaseTab from "@/components/BaseTab.vue";
 
 export default {
+  components: { BaseTab },
   data() {
     return {
       educationHistory: [],
@@ -44,25 +51,40 @@ export default {
 </script>
 
 <style scoped>
-.education {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-}
-ul {
-  list-style: none;
+.edu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   padding: 0;
 }
-li {
-  background: #f9f9f9;
+
+.edu-card {
+  background: white;
   padding: 15px;
-  margin: 10px 0;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
 }
+
+.edu-card:hover {
+  transform: translateY(-3px);
+}
+
 h3 {
   margin: 0;
+  font-size: 20px;
+  color: #333;
 }
+
+p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
 .error {
   color: red;
+  text-align: center;
+  font-size: 18px;
 }
 </style>
