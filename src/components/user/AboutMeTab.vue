@@ -7,14 +7,15 @@
       <!-- About Text -->
       <div class="about-text">
         <p>
-          Greetings! I am <strong>Jones Larry</strong>, a passionate graduate student dedicated to 
-          exploring the intersections of <strong>[Your Field of Study]</strong>. This digital space 
-          serves as a window into my academic pursuits, research endeavors, and my evolving scholarly journey.
+          Greetings! I am <strong>Jones Larry</strong>, an Engineer specializing in <strong>Software and AI systems</strong> at Amazon. 
+					I graduated from Duke University, where I developed a passion for solving complex problems through technology. 
         </p>
+		<p>
+			Currently, I work on building scalable AI systems that drive impactful solutions.
+			When I'm not coding, I enjoy exploring the latest in AI, contributing to open-source projects, and spending time outdoors.
+		</p>
         <p>
-          My curiosity drives me to understand and contribute to <strong>[Your Research Areas]</strong>. 
-          Here, you'll find insights into my projects, publications, and the collaborative discussions that 
-          shape my academic path.
+          Feel free to reach out if you’d like to connect or collaborate!
         </p>
         <p>Best regards,</p>
       </div>
