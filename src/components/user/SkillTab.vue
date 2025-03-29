@@ -30,7 +30,7 @@ export default {
     async fetchSkills() {
       this.loading = true;
       try {
-        const response = await axios.get("http://me-api.joneslarry.com/api/skill");
+        const response = await axios.get("https://me-api.joneslarry.com/api/skill");
         this.skills = response.data;
       } catch (err) {
         this.error = "Failed to load skills.";

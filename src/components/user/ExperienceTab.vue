@@ -40,7 +40,7 @@ export default {
     async fetchExperiences() {
       this.loading = true;
       try {
-        const response = await axios.get("http://me-api.joneslarry.com/api/experience");
+        const response = await axios.get("https://me-api.joneslarry.com/api/experience");
         this.experiences = response.data;
       } catch (err) {
         this.error = "Failed to load work experience.";

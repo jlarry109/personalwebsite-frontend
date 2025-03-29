@@ -39,7 +39,7 @@ export default {
     async fetchProjects() {
       this.loading = true;
       try {
-        const response = await axios.get("http://me-api.joneslarry.com/api/project");
+        const response = await axios.get("https://me-api.joneslarry.com/api/project");
         this.projects = response.data;
       } catch (err) {
         this.error = "Failed to load projects.";

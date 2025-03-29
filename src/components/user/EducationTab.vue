@@ -35,7 +35,7 @@ export default {
     async fetchEducationHistory() {
       this.loading = true;
       try {
-        const response = await axios.get("http://me-api.joneslarry.com/api/education");
+        const response = await axios.get("https://me-api.joneslarry.com/api/education");
         this.educationHistory = response.data;
       } catch (err) {
         this.error = "Failed to load education history.";

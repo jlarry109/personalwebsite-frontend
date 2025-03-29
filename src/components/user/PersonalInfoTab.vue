@@ -48,7 +48,7 @@ export default {
     async fetchPersonalInfo() {
       this.loading = true;
       try {
-        const response = await axios.get("http://me-api.joneslarry.com/api/personal-info");
+        const response = await axios.get("https://me-api.joneslarry.com/api/personal-info");
         this.personalInfo = response.data;
       } catch (err) {
         this.error = "Failed to load personal information.";

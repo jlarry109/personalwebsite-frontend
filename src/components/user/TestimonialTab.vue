@@ -35,7 +35,7 @@ export default {
     async fetchTestimonials() {
       this.loading = true;
       try {
-        const response = await axios.get("http://me-api.joneslarry.com/api/testimonial");
+        const response = await axios.get("https://me-api.joneslarry.com/api/testimonial");
         this.testimonials = response.data;
       } catch (err) {
         this.error = "Failed to load testimonials.";
