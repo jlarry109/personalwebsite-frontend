@@ -39,3 +39,7 @@ coverage
 .ebextensions/
 .ebextensions/*
 .ebextensions
+.ebextensions/00_static_files.config
+.ebextensions/01_environment.config
+.ebextensions/01_nginx.config
+.ebextensions/https_redirect.config
