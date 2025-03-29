@@ -50,4 +50,9 @@ export default {
   margin-bottom: 45px; /* Add space below the image */
 }
 
+.about-text strong {
+  color: white; /* Ensures bold text remains visible */
+  font-weight: bold; 
+}
+
 </style>

@@ -60,11 +60,13 @@ export default {
 <style scoped>
 .project-card {
   background: #f8f9fa;
+  color: #333;
   padding: 15px;
   margin: 10px 0;
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 h3 {
   margin-bottom: 5px;
 }
@@ -72,7 +74,7 @@ p {
   margin: 5px 0;
 }
 a {
-  color: #007bff;
+  color: #0800ff;
   text-decoration: none;
 }
 a:hover {
