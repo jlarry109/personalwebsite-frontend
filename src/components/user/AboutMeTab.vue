@@ -7,7 +7,7 @@
       <!-- About Text -->
       <div class="about-text">
         <p>
-          Greetings! I am <strong>Jones Larry</strong>, an Engineer specializing in <strong>Software and AI systems</strong> at Amazon. 
+          Greetings! I am <strong>Jones Larry</strong>, an Engineer specializing in <strong>Software and AI systems</strong> at Amazon Artificial General Intelligence. 
 					I graduated from Duke University, where I developed a passion for solving complex problems through technology. 
         </p>
 		<p>
