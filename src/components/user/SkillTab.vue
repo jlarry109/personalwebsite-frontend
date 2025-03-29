@@ -1,7 +1,18 @@
 <template>
   <BaseTab title="Skills">
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
+    <template v-if="loading">
+      <div class="skeleton-loader">
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text short"></div>
+        <div class="skeleton-text"></div>
+      </div>
+    </template>
+    <template v-else-if="error">
+      <div class="error">
+        <span>{{ error }}</span>
+        <button @click="error = null">×</button>
+      </div>
+    </template>
     <div v-else>
       <ul class="skill-list">
         <li v-for="skill in skills" :key="skill.id" class="skill-item">
@@ -64,7 +75,49 @@ export default {
   font-style: italic;
   color: rgba(255, 255, 255, 0.8);
 }
+
+.skeleton-loader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+
+.skeleton-text {
+  width: 100%;
+  height: 15px;
+  background: linear-gradient(90deg, #f3f3f3, #e0e0e0, #f3f3f3);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.skeleton-text.short {
+  width: 60%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .error {
+  background: #ffdddd;
   color: red;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 </style>

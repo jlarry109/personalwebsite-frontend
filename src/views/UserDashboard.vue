@@ -12,6 +12,8 @@
           {{ tab }}
         </button>
       </div>
+	  <div class="tab-indicator" :style="indicatorStyle"></div>
+
       <!-- <button @click="goToLogin" class="login-btn">Login</button> -->
     </nav>
 
@@ -48,17 +50,27 @@ export default {
       activeTab: "About Me", // Default tab
     };
   },
+  computed: {
+      indicatorStyle() {
+        const index = this.tabs.indexOf(this.activeTab);
+        return {
+          transform: `translateX(${index * 100}%)`,
+        };
+      }
+    },
   methods: {
-    changeTab(tab) {
-		console.log("Switching to tab:", tab); 
-      this.activeTab = tab;
-	  this.$nextTick(() => {
+	  changeTab(tab) {
+	    console.log("Switching to tab:", tab);
+	    this.activeTab = tab;
+	  
+	    this.$nextTick(() => {
 	      const section = document.getElementById(tab.toLowerCase().replace(/\s/g, "-"));
 	      if (section) {
-	        window.scrollTo({ top: section.offsetTop - 50, behavior: "smooth" });
+	        section.scrollIntoView({ behavior: "smooth", block: "start" });
 	      }
 	    });
-    },
+	  },
+
     getTabComponent(tab) {
       const components = {
         "About Me": AboutMeTab,
@@ -97,10 +109,24 @@ nav {
   padding: 10px;
   border-bottom: 2px solid #ddd;
 }
+
 .tabs {
+  position: relative;
   display: flex;
   gap: 10px;
 }
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100px; /* Adjust for tab width */
+  background-color: #b48974;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out, background-color 0.3s;
+}
+
 button {
   padding: 10px;
   border: none;
@@ -122,8 +148,22 @@ button.active {
 .login-btn:hover {
   background-color: #0056b3;
 }
+
 .tab-content {
   margin-top: 20px;
+  padding: 15px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Parallax styling */
@@ -136,6 +176,8 @@ button.active {
   color: white;
   font-size: 24px;
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px); /* Add blur */
+  transition: backdrop-filter 0.3s ease-in-out;
 }
 
 /* Fade transition for tabs */
