@@ -38,7 +38,11 @@ jobs:
           echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
 
           # Package the dist folder and the server.js file for deployment => I subsequently changed server.js to server.cjs to silence the import warnings
-          zip -r deploy.zip dist server.cjs package.json
+          # zip -r deploy.zip dist server.cjs package.json .platform 
+		  zip -r deploy.zip . -x "*.git*"
+		  
+	  - name: Verify Deployment Package
+		run: unzip -l deploy.zip
 
       - name: Verify Build Artifacts
         run: ls -R dist
