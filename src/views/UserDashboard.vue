@@ -2,10 +2,12 @@
   <div class="user-dashboard">
     <nav>
       <div class="tabs">
-       <button 
+        <button 
           v-for="tab in tabs" 
           :key="tab" 
-          @click="changeTab(tab)" 
+          :href="'#' + tab.toLowerCase().replace(/\s/g, '-')"
+          v-scrolly
+          @click="changeTab(tab)"
           :class="{ active: activeTab === tab }">
           {{ tab }}
         </button>
@@ -19,11 +21,13 @@
     </section>
 
     <!-- Smooth Scrolling Sections -->
-    <div class="tab-content">
-      <transition name="fade" mode="out-in">
-        <component :is="getTabComponent(activeTab)" :key="activeTab" />
-      </transition>
-    </div>
+        <div class="tab-content">
+          <section :id="activeTab.toLowerCase().replace(/\s/g, '-')">
+            <transition name="fade" mode="out-in">
+              <component :is="getTabComponent(activeTab)" :key="activeTab" />
+            </transition>
+          </section>
+        </div>
   </div>
 </template>
 
