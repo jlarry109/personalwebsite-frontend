@@ -74,11 +74,16 @@ p {
   margin: 5px 0;
 }
 a {
-  color: #0800ff;
-  text-decoration: none;
+ color: #1100ff !important;
+ text-decoration: none;
+ font-weight: bold;
+ visibility: visible !important;
+ opacity: 1 !important;
+ transition: color 0.3s ease;
 }
 a:hover {
   text-decoration: underline;
+  color: #ffcc00;
 }
 .error {
   color: red;
