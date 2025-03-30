@@ -19,7 +19,7 @@
 
     <!-- Parallax Intro Section -->
     <section id="intro" v-parallax="0.3">
-      <h1>Welcome to My Portfolio</h1>
+      <h1>Building. Learning. Evolving.</h1>
     </section>
 
     <!-- Smooth Scrolling Sections -->
@@ -167,6 +167,25 @@ button.active {
 }
 
 /* Parallax styling */
+#intro h1 {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 #intro {
   background: url('@/assets/images/bg.jpg') center/cover no-repeat;
   height: 300px;
@@ -174,12 +193,20 @@ button.active {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 24px;
+  font-size: 28px;
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
   backdrop-filter: blur(3px); /* Add blur */
   transition: backdrop-filter 0.3s ease-in-out;
 }
-
+#intro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+}
 /* Fade transition for tabs */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
