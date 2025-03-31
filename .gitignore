@@ -34,6 +34,8 @@ coverage
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
+# Environment variables
+.env
 
 # Temporarily remove this
 .ebextensions

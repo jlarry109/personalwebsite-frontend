@@ -5,20 +5,23 @@
         <div class="fields">
           <div class="field">
             <label for="name">Name</label>
-            <input type="text" v-model="name" id="name" />
+            <input type="text" v-model="form.name" id="name" required />
           </div>
           <div class="field">
             <label for="email">Email</label>
-            <input type="email" v-model="email" id="email" />
+            <input type="email" v-model="form.email" id="email" required />
           </div>
           <div class="field">
             <label for="message">Message</label>
-            <textarea v-model="message" id="message" rows="3"></textarea>
+            <textarea v-model="form.message" id="message" rows="3" required></textarea>
           </div>
         </div>
         <ul class="actions">
           <li><input type="submit" value="Send Message" /></li>
         </ul>
+
+        <p v-if="messageSent" class="success">Message sent successfully!</p>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </form>
     </section>
 
@@ -57,17 +60,39 @@
 </template>
 
 <script>
+import emailjs from "@emailjs/browser";
+
 export default {
   data() {
     return {
-      name: "",
-      email: "",
-      message: "",
+      form: {
+        name: "",
+        email: "",
+        message: "",
+      },
+      messageSent: false,
+      errorMessage: "",
     };
   },
   methods: {
-    submitForm() {
-      alert(`Message from ${this.name} sent!`);
+    async submitForm() {
+      try {
+        const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+        if (!serviceID || !templateID || !publicKey) {
+          throw new Error("EmailJS environment variables are missing.");
+        }
+
+        await emailjs.send(serviceID, templateID, this.form, publicKey);
+        this.messageSent = true;
+        this.errorMessage = "";
+        this.form = { name: "", email: "", message: "" }; // Clear form after success
+      } catch (error) {
+        console.error("EmailJS Error:", error);
+        this.errorMessage = "Failed to send message. Please try again.";
+      }
     },
   },
 };
@@ -84,6 +109,14 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
 }
 
 .split.contact {
