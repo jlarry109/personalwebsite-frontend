@@ -1,6 +1,6 @@
 <template>
   <header id="header">
-    <router-link to="/" class="logo">E pluribus unum</router-link>
+    <router-link to="/" class="logo">Jones Larry</router-link>
     <h1>Welcome to My Personal Website</h1>
     <p>Explore my projects, skills, and experiences.</p>
   </header>
