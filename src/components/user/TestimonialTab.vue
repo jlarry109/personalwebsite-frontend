@@ -83,6 +83,11 @@ blockquote {
   margin-top: 5px;
   color: #fff; 
 }
+
+.author strong {
+  color: white; /* Ensures bold text remains visible */
+  font-weight: bold; 
+}
 .date {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);

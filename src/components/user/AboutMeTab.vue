@@ -12,7 +12,7 @@
         </p>
 		<p>
 			Currently, I work on building scalable AI systems that drive impactful solutions.
-			When I'm not coding, I enjoy exploring the latest in AI, contributing to open-source projects, and spending time outdoors.
+			When I'm not programming, I enjoy exploring the latest in AI, contributing to open-source projects, and spending time outdoors.
 		</p>
         <p>
           Feel free to reach out if you’d like to connect or collaborate!
