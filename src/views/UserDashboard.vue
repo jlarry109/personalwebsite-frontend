@@ -1,7 +1,7 @@
 <template>
   <div class="user-dashboard">
     <nav>
-      <div class="tabs-wrapper">
+      <div class="tabs-scroll-container">
         <div class="tabs">
           <button 
             v-for="tab in tabs" 
@@ -111,50 +111,53 @@ nav {
   border-bottom: 2px solid #ddd;
 }
 
-/* .tabs {
-  position: relative;
-  display: flex;
-  gap: 10px;
-} */
+ .tabs-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  width: 100%;
+}
 
 .tabs {
-  display: flex;
+  display: inline-flex;
   gap: 10px;
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 6px;
+  padding: 10px;
+  min-width: max-content;
 }
 
 .tabs::-webkit-scrollbar {
-  display: none; /* Optional: hide scrollbar */
+  display: none;
 }
 
-
-.tab-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  width: 100px; /* Adjust for tab width */
-  background-color: #b48974;
-  border-radius: 5px;
-  transition: transform 0.3s ease-in-out, background-color 0.3s;
-}
-
-.tabs-wrapper {
+.tabs-scroll-container {
   overflow-x: auto;
+  white-space: nowrap;
   -webkit-overflow-scrolling: touch;
-  margin-right: 10px;
+  margin: 0 -10px; /* compensate padding if needed */
 }
 
+.tabs {
+  display: inline-flex;
+  gap: 10px;
+  padding: 10px;
+  white-space: nowrap;
+  min-width: max-content;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none; /* hide scrollbar */
+}
 
 button {
-  padding: 10px;
+  flex-shrink: 0;
+  padding: 10px 15px;
   border: none;
   background: lightgray;
   cursor: pointer;
+  white-space: nowrap;
 }
+
+
 button.active {
   background: gray;
   color: white;
