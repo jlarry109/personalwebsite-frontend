@@ -33,3 +33,18 @@ a,
     padding: 0 2rem;
   }
 }
+
+@media screen and (max-width: 480px) {
+	#footer {
+		flex-direction: column;
+		text-align: center;
+	}
+	
+	.split.contact {
+		flex-direction: column;
+	}
+	
+	.icons.alt li {
+		margin: 10px 0;
+	}
+}
