@@ -1,21 +1,22 @@
 <template>
   <div class="user-dashboard">
     <nav>
-      <div class="tabs">
-        <button 
-          v-for="tab in tabs" 
-          :key="tab" 
-          :href="'#' + tab.toLowerCase().replace(/\s/g, '-')"
-          v-scrolly
-          @click="changeTab(tab)"
-          :class="{ active: activeTab === tab }">
-          {{ tab }}
-        </button>
+      <div class="tabs-wrapper">
+        <div class="tabs">
+          <button 
+            v-for="tab in tabs" 
+            :key="tab" 
+            :href="'#' + tab.toLowerCase().replace(/\s/g, '-')"
+            v-scrolly
+            @click="changeTab(tab)"
+            :class="{ active: activeTab === tab }">
+            {{ tab }}
+          </button>
+        </div>
       </div>
-	  <div class="tab-indicator" :style="indicatorStyle"></div>
-
-      <!-- <button @click="goToLogin" class="login-btn">Login</button> -->
+      <div class="tab-indicator" :style="indicatorStyle"></div>
     </nav>
+
 
     <!-- Parallax Intro Section -->
     <section id="intro" v-parallax="0.3">
@@ -110,11 +111,25 @@ nav {
   border-bottom: 2px solid #ddd;
 }
 
-.tabs {
+/* .tabs {
   position: relative;
   display: flex;
   gap: 10px;
+} */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
 }
+
+.tabs::-webkit-scrollbar {
+  display: none; /* Optional: hide scrollbar */
+}
+
 
 .tab-indicator {
   position: absolute;
@@ -126,6 +141,13 @@ nav {
   border-radius: 5px;
   transition: transform 0.3s ease-in-out, background-color 0.3s;
 }
+
+.tabs-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-right: 10px;
+}
+
 
 button {
   padding: 10px;
