@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data() {
     return {
@@ -28,29 +26,9 @@ export default {
     }
   },
   methods: {
-    async login() {
-      try {
-        const response = await axios.post('http://localhost:8080/api/auth/login', {
-          email: this.email,
-          password: this.password
-        });
-
-        const { token, role } = response.data; // Expecting role in response
-        localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
-
-        // ✅ Set Authorization header for future requests
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-        // ✅ Redirect based on role
-        if (role === 'ADMIN') {
-          this.$router.push('/admin');
-        } else {
-          this.$router.push('/dashboard');
-        }
-      } catch (error) {
-        this.errorMessage = 'Invalid email or password';
-      }
+    login() {
+      // Static login for demo - redirect to home
+      this.$router.push('/');
     }
   }
 }
