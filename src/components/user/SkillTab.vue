@@ -40,7 +40,7 @@ export default {
     async fetchSkills() {
       this.loading = true;
       try {
-        const response = await fetch('/data/skills.json');
+        const response = await fetch('./data/skills.json');
         this.skills = await response.json();
       } catch (err) {
         this.error = "Failed to load skills.";

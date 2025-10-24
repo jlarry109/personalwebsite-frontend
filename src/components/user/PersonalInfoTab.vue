@@ -54,7 +54,7 @@ export default {
     async fetchPersonalInfo() {
       this.loading = true;
       try {
-        const response = await fetch('/data/personal-info.json');
+        const response = await fetch('./data/personal-info.json');
         this.personalInfo = await response.json();
       } catch (err) {
         this.error = "Failed to load personal information.";
