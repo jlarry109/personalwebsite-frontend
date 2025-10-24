@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -47,13 +46,13 @@ export default {
     };
   },
   methods: {
-    async fetchProjects() {
+    fetchProjects() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/project");
-        this.projects = response.data;
+        this.projects = JSON.parse(import.meta.env.VITE_PROJECTS || '[]');
       } catch (err) {
         this.error = "Failed to load projects.";
+        console.error('Projects error:', err);
       } finally {
         this.loading = false;
       }

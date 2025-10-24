@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "certificationName": "AWS Certified Developer - Associate",
+    "issuingOrganization": "Amazon Web Services",
+    "dateObtained": "2023-05-20",
+    "certificationUrl": "https://www.aws.com/certifications/developer-associate"
+  },
+  {
+    "id": 2,
+    "certificationName": "AWS Certified DevOps Engineer - Professional",
+    "issuingOrganization": "Amazon Web Services",
+    "dateObtained": "2024-02-15",
+    "certificationUrl": "https://www.aws.com/certifications/devops-engineer-professional"
+  }
+]

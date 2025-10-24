@@ -27,6 +27,16 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
+@media (max-width: 768px) {
+  .base-tab {
+    padding: 20px 10px;
+  }
+  
+  .tab-title {
+    font-size: 32px;
+  }
+}
+
 .tab-title {
   font-size: 48px;
   font-weight: bold;

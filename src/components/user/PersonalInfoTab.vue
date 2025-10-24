@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -55,16 +54,18 @@ export default {
     async fetchPersonalInfo() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/personal-info");
-        this.personalInfo = response.data;
+        const response = await fetch('/data/personal-info.json');
+        this.personalInfo = await response.json();
       } catch (err) {
         this.error = "Failed to load personal information.";
+        console.error('PersonalInfo error:', err);
       } finally {
         this.loading = false;
       }
     },
   },
   mounted() {
+    console.log('PersonalInfoTab mounted');
     this.fetchPersonalInfo();
   },
 };

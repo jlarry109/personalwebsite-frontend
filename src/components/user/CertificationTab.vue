@@ -17,11 +17,11 @@
       <ul class="cert-list">
         <li v-for="cert in certifications" :key="cert.id">
           <div class="cert-card">
-            <h3>{{ cert.certName }}</h3>
-            <p><strong>Issuing Organization:</strong> {{ cert.issuingOrg }}</p>
-            <p><strong>Date Earned:</strong> {{ formatDate(cert.dateEarned) }}</p>
-            <p v-if="cert.certUrl">
-              <a :href="cert.certUrl" target="_blank">View Certification</a>
+            <h3>{{ cert.certificationName }}</h3>
+            <p><strong>Issuing Organization:</strong> {{ cert.issuingOrganization }}</p>
+            <p><strong>Date Earned:</strong> {{ formatDate(cert.dateObtained) }}</p>
+            <p v-if="cert.certificationUrl">
+              <a :href="cert.certificationUrl" target="_blank">View Certification</a>
             </p>
           </div>
         </li>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -44,13 +43,13 @@ export default {
     };
   },
   methods: {
-    async fetchCertifications() {
+    fetchCertifications() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/certification");
-        this.certifications = response.data;
+        this.certifications = JSON.parse(import.meta.env.VITE_CERTIFICATIONS || '[]');
       } catch (err) {
         this.error = "Failed to load certifications.";
+        console.error('Certifications error:', err);
       } finally {
         this.loading = false;
       }

@@ -36,6 +36,10 @@ coverage
 
 # Environment variables
 .env
+.env.local
+.env.production
+
+
 
 # Temporarily remove this
 .ebextensions

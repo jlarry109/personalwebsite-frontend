@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "companyName": "Microsoft.Inc",
+    "position": "Systems Engineer",
+    "startDate": "2019-06-01",
+    "endDate": "2021-12-31",
+    "description": "Developed and maintained web applications using Java and Spring Boot."
+  },
+  {
+    "id": 2,
+    "companyName": "Apple.Inc",
+    "position": "Machine Learning Engineer",
+    "startDate": "2022-01-10",
+    "endDate": "2025-04-26",
+    "description": "Leading a team of developers and working on scalable microservices architecture."
+  },
+  {
+    "id": 3,
+    "companyName": "Amazon Artificial General Intelligence",
+    "position": "Applied Scientist",
+    "startDate": "2025-04-27",
+    "endDate": null,
+    "description": "Leading a team of developers and working on scalable microservices architecture."
+  }
+]

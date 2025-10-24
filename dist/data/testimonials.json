@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "message": "This service is fantastic! It helped us scale our platform quickly and efficiently. Highly recommend it.",
+    "role": "Senior Software Engineer",
+    "organization": "Tech Innovators Inc.",
+    "submittedAt": "2024-03-10"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "message": "The level of professionalism and technical expertise is second to none. A great experience working with this team.",
+    "role": "Product Manager",
+    "organization": "Creative Solutions Ltd.",
+    "submittedAt": "2024-03-15"
+  }
+]

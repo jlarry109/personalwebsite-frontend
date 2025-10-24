@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "schoolName": "Duke University",
+    "degree": "Master of Science in Electrical and Computer Engineering",
+    "city": "Durham",
+    "province": "North Carolina",
+    "country": "United States",
+    "startYear": 2022,
+    "endYear": 2024
+  },
+  {
+    "id": 2,
+    "schoolName": "University of Manchester",
+    "degree": "Masters in Biomedical Engineering",
+    "city": "Manchester",
+    "province": "Greater Manchester",
+    "country": "United Kingdom",
+    "startYear": 2019,
+    "endYear": 2020
+  }
+]

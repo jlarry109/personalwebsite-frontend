@@ -1,59 +1,56 @@
-name: Deploy Personal Website Frontend to AWS Elastic Beanstalk
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
         run: npm run build
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        env:
+          VITE_PERSONAL_INFO: ${{ secrets.VITE_PERSONAL_INFO }}
+          VITE_SKILLS: ${{ secrets.VITE_SKILLS }}
+          VITE_EDUCATION: ${{ secrets.VITE_EDUCATION }}
+          VITE_EXPERIENCE: ${{ secrets.VITE_EXPERIENCE }}
+          VITE_PROJECTS: ${{ secrets.VITE_PROJECTS }}
+          VITE_CERTIFICATIONS: ${{ secrets.VITE_CERTIFICATIONS }}
+          VITE_TESTIMONIALS: ${{ secrets.VITE_TESTIMONIALS }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          path: ./dist
 
-      - name: Prepare Deployment Package
-        run: |
-          VERSION_LABEL="v$(date +%Y%m%d%H%M%S)"
-          echo "VERSION_LABEL=$VERSION_LABEL" >> $GITHUB_ENV
-
-          # Package the entire project (including .platform) for deployment
-          zip -r deploy.zip . -x "*.git*"
-
-      - name: Verify Deployment Package
-        run: unzip -l deploy.zip
-
-      - name: Verify Build Artifacts
-        run: ls -R dist
-
-      - name: Upload to S3
-        run: aws s3 cp deploy.zip s3://personalwebsite-frontend-bucket/
-
-      - name: Deploy to Elastic Beanstalk
-        run: |
-          aws elasticbeanstalk create-application-version --application-name personalwebsite-frontend \
-            --version-label "$VERSION_LABEL" \
-            --source-bundle S3Bucket="personalwebsite-frontend-bucket",S3Key="deploy.zip"
-
-          aws elasticbeanstalk update-environment --environment-name personalwebsite-frontend-env \
-            --version-label "$VERSION_LABEL"
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

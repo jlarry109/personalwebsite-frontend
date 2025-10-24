@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -46,13 +45,13 @@ export default {
     };
   },
   methods: {
-    async fetchExperiences() {
+    fetchExperiences() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/experience");
-        this.experiences = response.data;
+        this.experiences = JSON.parse(import.meta.env.VITE_EXPERIENCE || '[]');
       } catch (err) {
         this.error = "Failed to load work experience.";
+        console.error('Experience error:', err);
       } finally {
         this.loading = false;
       }

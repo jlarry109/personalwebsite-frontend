@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -43,13 +42,13 @@ export default {
     };
   },
   methods: {
-    async fetchTestimonials() {
+    fetchTestimonials() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/testimonial");
-        this.testimonials = response.data;
+        this.testimonials = JSON.parse(import.meta.env.VITE_TESTIMONIALS || '[]');
       } catch (err) {
         this.error = "Failed to load testimonials.";
+        console.error('Testimonials error:', err);
       } finally {
         this.loading = false;
       }

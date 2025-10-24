@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -41,16 +40,18 @@ export default {
     async fetchSkills() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/skill");
-        this.skills = response.data;
+        const response = await fetch('/data/skills.json');
+        this.skills = await response.json();
       } catch (err) {
         this.error = "Failed to load skills.";
+        console.error('Skills error:', err);
       } finally {
         this.loading = false;
       }
     },
   },
   mounted() {
+    console.log('SkillTab mounted');
     this.fetchSkills();
   },
 };

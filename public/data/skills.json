@@ -1,0 +1,21 @@
+[
+  {"id": 1, "skillName": "Java", "proficiencyLevel": "ADVANCED"},
+  {"id": 2, "skillName": "C", "proficiencyLevel": "ADVANCED"},
+  {"id": 3, "skillName": "Python", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 4, "skillName": "C++", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 5, "skillName": "SQL", "proficiencyLevel": "ADVANCED"},
+  {"id": 6, "skillName": "AWS", "proficiencyLevel": "EXPERT"},
+  {"id": 7, "skillName": "Docker", "proficiencyLevel": "ADVANCED"},
+  {"id": 8, "skillName": "CI/CD", "proficiencyLevel": "ADVANCED"},
+  {"id": 9, "skillName": "MySQL", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 10, "skillName": "PostgreSQL", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 11, "skillName": "MongoDB", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 12, "skillName": "DynamoDB", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 13, "skillName": "GIT", "proficiencyLevel": "ADVANCED"},
+  {"id": 14, "skillName": "JUnit", "proficiencyLevel": "ADVANCED"},
+  {"id": 15, "skillName": "Mockito", "proficiencyLevel": "ADVANCED"},
+  {"id": 16, "skillName": "IntelliJ IDEA", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 17, "skillName": "Eclipse", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 18, "skillName": "VS Code", "proficiencyLevel": "INTERMEDIATE"},
+  {"id": 19, "skillName": "Postman", "proficiencyLevel": "INTERMEDIATE"}
+]

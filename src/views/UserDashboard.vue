@@ -73,6 +73,7 @@ export default {
 	  },
 
     getTabComponent(tab) {
+      console.log('Getting component for tab:', tab);
       const components = {
         "About Me": AboutMeTab,
         "Personal Info": PersonalInfoTab,
@@ -83,7 +84,9 @@ export default {
         "Projects": ProjectTab,
         "Testimonials": TestimonialTab,
       };
-      return components[tab] || "div";
+      const component = components[tab] || "div";
+      console.log('Returning component:', component);
+      return component;
     },
     goToLogin() {
       this.$router.push("/login");
@@ -96,6 +99,13 @@ export default {
 .user-dashboard {
   max-width: 900px;
   margin: auto;
+  padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .user-dashboard {
+    padding: 0 5px;
+  }
 }
 
 
@@ -123,6 +133,18 @@ nav {
   gap: 10px;
   padding: 10px;
   min-width: max-content;
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    gap: 5px;
+    padding: 5px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
 }
 
 .tabs::-webkit-scrollbar {

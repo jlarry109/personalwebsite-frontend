@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 
 export default {
@@ -42,13 +41,13 @@ export default {
     };
   },
   methods: {
-    async fetchEducationHistory() {
+    fetchEducationHistory() {
       this.loading = true;
       try {
-        const response = await axios.get("https://me-api.joneslarry.com/api/education");
-        this.educationHistory = response.data;
+        this.educationHistory = JSON.parse(import.meta.env.VITE_EDUCATION || '[]');
       } catch (err) {
         this.error = "Failed to load education history.";
+        console.error('Education error:', err);
       } finally {
         this.loading = false;
       }
