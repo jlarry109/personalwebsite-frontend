@@ -62,7 +62,7 @@ export default {
     async fetchSkills() {
       this.loading = true;
       try {
-        const response = await fetch('/data/skills.json');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/skills.json`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         this.skills = await response.json();
         console.log('Skills loaded:', this.skills);

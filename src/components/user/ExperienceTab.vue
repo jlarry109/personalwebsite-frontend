@@ -62,7 +62,7 @@ export default {
     async fetchExperiences() {
       this.loading = true;
       try {
-        const response = await fetch('./data/experience.json');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/experience.json`);
         const data = await response.json();
         this.experiences = data.sort((a, b) => {
           const dateA = new Date(a.startDate);

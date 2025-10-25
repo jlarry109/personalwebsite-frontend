@@ -93,7 +93,7 @@ export default {
     async fetchPersonalInfo() {
       this.loading = true;
       try {
-        const response = await fetch('/data/personal-info.json');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/personal-info.json`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         this.personalInfo = await response.json();
         console.log('Personal info loaded:', this.personalInfo);
@@ -108,10 +108,10 @@ export default {
       try {
         // Fetch all data needed for resume
         const [skillsRes, experienceRes, educationRes, projectsRes] = await Promise.all([
-          fetch('/data/skills.json'),
-          fetch('/data/experience.json'),
-          fetch('/data/education.json'),
-          fetch('/data/projects.json')
+          fetch(`${import.meta.env.BASE_URL}data/skills.json`),
+          fetch(`${import.meta.env.BASE_URL}data/experience.json`),
+          fetch(`${import.meta.env.BASE_URL}data/education.json`),
+          fetch(`${import.meta.env.BASE_URL}data/projects.json`)
         ]);
         
         const skills = await skillsRes.json();
