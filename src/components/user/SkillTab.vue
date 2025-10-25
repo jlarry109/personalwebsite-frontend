@@ -14,27 +14,62 @@
       </div>
     </template>
     <div v-else>
-      <SearchFilter @search="handleSearch" />
+      <div class="controls-section">
+        <SearchFilter @search="handleSearch" />
+        <div class="category-filters">
+          <button 
+            v-for="category in categories" 
+            :key="category"
+            @click="toggleCategory(category)"
+            :class="['category-btn', { active: selectedCategories.includes(category) }]"
+            class="category-filter">
+            {{ getCategoryIcon(category) }} {{ category }}
+          </button>
+        </div>
+      </div>
+      
       <div v-if="filteredSkills.length === 0" class="empty-state">
         <div class="empty-icon">🎯</div>
         <h3>No Skills Found</h3>
         <p>{{ searchQuery ? 'No skills match your search.' : 'Skills will appear here once they are added.' }}</p>
       </div>
+      
       <ul v-else class="skill-list">
         <li 
           v-for="(skill, index) in filteredSkills" 
           :key="skill.id" 
           class="skill-item animate-card"
-          :class="getSkillCategory(skill.skillName)"
-          :style="{ animationDelay: `${index * 0.1}s` }">
+          :class="`category-${skill.category}`"
+          :style="{ animationDelay: `${index * 0.1}s` }"
+          @mouseenter="showTooltip = skill.id"
+          @mouseleave="showTooltip = null">
           <div class="skill-content">
-            <span class="skill-name">{{ skill.skillName }}</span>
+            <div class="skill-header">
+              <span class="skill-name">{{ skill.skillName }}</span>
+              <div class="experience-counter">
+                <AnimatedCounter 
+                  v-if="isVisible"
+                  :value="skill.yearsOfExperience" 
+                  :duration="800"
+                  suffix="y" />
+              </div>
+            </div>
             <span class="proficiency-label" :class="skill.proficiencyLevel">{{ skill.proficiencyLevel }}</span>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" :class="skill.proficiencyLevel" :style="{ width: getProficiencyWidth(skill.proficiencyLevel) }"></div>
           </div>
-          <div class="card-glow" :class="getSkillCategory(skill.skillName)"></div>
+          
+          <!-- Tooltip -->
+          <div v-if="showTooltip === skill.id" class="skill-tooltip">
+            <div class="tooltip-content">
+              <strong>{{ skill.skillName }}</strong><br>
+              Level: {{ skill.proficiencyLevel }}<br>
+              Experience: {{ skill.yearsOfExperience }} years
+            </div>
+          </div>
+          
+          <div class="card-glow" :class="`category-${skill.category}`"></div>
         </li>
       </ul>
     </div>
@@ -44,24 +79,41 @@
 <script lang="js">
 import BaseTab from "@/components/BaseTab.vue";
 import SearchFilter from "@/components/SearchFilter.vue";
+import AnimatedCounter from "@/components/AnimatedCounter.vue";
 
 export default {
-  components: { BaseTab, SearchFilter },
+  components: { BaseTab, SearchFilter, AnimatedCounter },
   data() {
     return {
       skills: [],
       loading: false,
       error: null,
       searchQuery: '',
+      selectedCategories: [],
+      showTooltip: null,
+      isVisible: false
     };
   },
   computed: {
+    categories() {
+      return [...new Set(this.skills.map(skill => skill.category))].sort();
+    },
     filteredSkills() {
-      if (!this.searchQuery) return this.skills;
-      return this.skills.filter(skill => 
-        skill.skillName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        skill.proficiencyLevel.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      let filtered = this.skills;
+      
+      if (this.selectedCategories.length > 0) {
+        filtered = filtered.filter(skill => this.selectedCategories.includes(skill.category));
+      }
+      
+      if (this.searchQuery) {
+        filtered = filtered.filter(skill => 
+          skill.skillName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          skill.proficiencyLevel.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          skill.category.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      }
+      
+      return filtered;
     }
   },
   methods: {
@@ -91,41 +143,89 @@ export default {
       };
       return widths[level] || '0%';
     },
-    getSkillCategory(skillName) {
-      const categories = {
-        programming: ['Java', 'C', 'Python', 'C++'],
-        database: ['SQL', 'MySQL', 'PostgreSQL', 'MongoDB', 'DynamoDB'],
-        cloud: ['AWS', 'Docker'],
-        tools: ['CI/CD', 'GIT', 'JUnit', 'Mockito', 'IntelliJ IDEA', 'Eclipse', 'VS Code', 'Postman']
-      };
-      
-      for (const [category, skills] of Object.entries(categories)) {
-        if (skills.includes(skillName)) {
-          return `category-${category}`;
-        }
+    toggleCategory(category) {
+      const index = this.selectedCategories.indexOf(category);
+      if (index > -1) {
+        this.selectedCategories.splice(index, 1);
+      } else {
+        this.selectedCategories.push(category);
       }
-      return 'category-other';
+    },
+    getCategoryIcon(category) {
+      const icons = {
+        programming: '💻',
+        database: '🗄️',
+        cloud: '☁️',
+        tools: '🛠️'
+      };
+      return icons[category] || '📋';
     }
   },
   mounted() {
     console.log('SkillTab mounted');
     this.fetchSkills();
+    setTimeout(() => {
+      this.isVisible = true;
+    }, 500);
   },
 };
 </script>
 
 <style scoped>
+.controls-section {
+  margin-bottom: 32px;
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.category-filter {
+  padding: 8px 16px;
+  border: 2px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #64748b;
+}
+
+.category-filter:hover {
+  border-color: #6366f1;
+  color: #6366f1;
+  transform: translateY(-2px);
+}
+
+.category-filter.active {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
 .skill-list {
   list-style: none;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
+  transition: all 0.4s ease;
 }
 
 @media (max-width: 768px) {
   .skill-list {
     grid-template-columns: 1fr;
+  }
+  
+  .category-filters {
+    justify-content: flex-start;
   }
 }
 .skill-item {
@@ -234,10 +334,14 @@ export default {
 }
 
 .skill-content {
+  margin-bottom: 16px;
+}
+
+.skill-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .skill-name {
@@ -245,6 +349,59 @@ export default {
   color: #1e293b;
   font-size: 17px;
   letter-spacing: -0.025em;
+}
+
+.experience-counter {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
+}
+
+.skill-tooltip {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  opacity: 0;
+  animation: tooltipFadeIn 0.3s ease forwards;
+}
+
+.tooltip-content {
+  background: rgba(15, 23, 42, 0.95);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(15, 23, 42, 0.95);
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .proficiency-label {
@@ -256,6 +413,7 @@ export default {
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
+  align-self: flex-start;
 }
 
 .proficiency-label.EXPERT {
