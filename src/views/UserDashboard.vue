@@ -19,7 +19,7 @@
 
 
     <!-- Parallax Intro Section -->
-    <section id="intro" v-parallax="0.3">
+    <section id="intro" :v-parallax="isMobile ? 0.1 : 0.3">
       <h1>Building. Learning. Evolving.</h1>
     </section>
 
@@ -48,8 +48,16 @@ export default {
   data() {
     return {
       tabs: ["About Me", "Personal Info", "Education", "Experience", "Skills", "Certifications", "Projects", "Testimonials"],
-      activeTab: "About Me", // Default tab
+      activeTab: "About Me",
+      isMobile: false
     };
+  },
+  mounted() {
+    this.checkMobile();
+    window.addEventListener('resize', this.checkMobile);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.checkMobile);
   },
   computed: {
       indicatorStyle() {
@@ -87,6 +95,9 @@ export default {
       const component = components[tab] || "div";
       console.log('Returning component:', component);
       return component;
+    },
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768;
     },
     goToLogin() {
       this.$router.push("/login");
@@ -261,6 +272,8 @@ button.active {
     height: 200px;
     font-size: 18px;
     padding: 0 20px;
+    background-size: cover;
+    background-position: center center;
   }
   
   #intro h1 {
