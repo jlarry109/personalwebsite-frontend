@@ -2,10 +2,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '@/views/LoginView.vue';
 import AdminDashboard from '@/views/AdminDashboard.vue';
 import UserDashboard from '@/views/UserDashboard.vue';
+import ThoughtsView from '@/views/ThoughtsView.vue';
+import ArticleView from '@/views/ArticleView.vue';
 
 const routes = [
   // Home page is now the read-only UserDashboard
   { path: '/', name: 'home', component: UserDashboard },
+
+  // Thoughts page for personal insights
+  { path: '/thoughts', name: 'thoughts', component: ThoughtsView },
+
+  // Individual article view
+  { path: '/thoughts/:slug', name: 'article', component: ArticleView },
 
   // Separate Login page for users who want to log in
   { path: '/login', name: 'login', component: LoginView },

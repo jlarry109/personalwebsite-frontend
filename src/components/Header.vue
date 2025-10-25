@@ -8,7 +8,7 @@
   <nav id="nav">
 	<ul class="links">
 	      <li><router-link to="/" active-class="active">Home</router-link></li>
-	      <li><router-link to="/generic" active-class="active">Generic Page</router-link></li>
+	      <li><router-link to="/thoughts" active-class="active">Thoughts</router-link></li>
 	      <li><router-link to="/elements" active-class="active">Elements</router-link></li>
 	</ul>
     

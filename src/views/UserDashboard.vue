@@ -21,8 +21,8 @@
     <!-- Hero Section -->
     <section id="intro">
       <div class="hero-content">
-        <h1>Jones Larry</h1>
-        <p class="hero-subtitle">Machine Learning Engineer & Software Developer</p>
+        <h1>Building. Learning. Evolving.</h1>
+        <p class="hero-subtitle">Crafting intelligent solutions through continuous growth</p>
       </div>
     </section>
 
@@ -116,6 +116,11 @@ export default {
   padding: 0 20px;
   background: #f8fafc;
   min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+.dark .user-dashboard {
+  background: #0f172a;
 }
 
 @media (max-width: 768px) {
@@ -137,6 +142,12 @@ nav {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.dark nav {
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid #334155;
 }
 
  .tabs-scroll-container {
@@ -153,6 +164,11 @@ nav {
   background: #f8f9fa;
   border-radius: 30px;
   min-width: max-content;
+  transition: background-color 0.3s ease;
+}
+
+.dark .tabs {
+  background: #1e293b;
 }
 
 @media (max-width: 768px) {
@@ -238,6 +254,15 @@ button {
   transition: all 0.3s ease;
   min-height: 44px;
   min-width: 44px;
+}
+
+.dark button {
+  color: #94a3b8;
+}
+
+.dark button:hover {
+  background: #334155;
+  color: #e2e8f0;
 }
 
 button:hover {
