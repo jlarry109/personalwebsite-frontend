@@ -45,10 +45,11 @@ export default {
     };
   },
   methods: {
-    fetchExperiences() {
+    async fetchExperiences() {
       this.loading = true;
       try {
-        this.experiences = JSON.parse(import.meta.env.VITE_EXPERIENCE || '[]');
+        const response = await fetch('./data/experience.json');
+        this.experiences = await response.json();
       } catch (err) {
         this.error = "Failed to load work experience.";
         console.error('Experience error:', err);
