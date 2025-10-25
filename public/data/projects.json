@@ -2,25 +2,61 @@
   {
     "id": 1,
     "title": "Personal Portfolio Website",
-    "description": "A personal portfolio website built with Java and Spring Boot to showcase skills, projects, and achievements.",
-    "githubLink": "https://github.com/yourusername/portfolio-website",
-    "liveDemoLink": "https://www.yourportfolio.com",
-    "dateCreated": "2024-01-15"
+    "description": "A modern, responsive portfolio website showcasing professional journey, skills, and projects with Vue.js and glassmorphism design.",
+    "githubLink": "https://github.com/jlarry109/personalwebsite-frontend",
+    "liveDemoLink": "https://www.portfolio.joneslarry.com",
+    "dateCreated": "2024-01-15",
+    "screenshots": [
+      "logo3.png",
+      "logo3.png",
+      "logo3.png"
+    ],
+    "technologies": [
+      { "name": "Vue.js", "icon": "🟢", "color": "#4FC08D" },
+      { "name": "JavaScript", "icon": "🟨", "color": "#F7DF1E" },
+      { "name": "CSS3", "icon": "🔵", "color": "#1572B6" },
+      { "name": "Vite", "icon": "⚡", "color": "#646CFF" }
+    ],
+    "category": "web"
   },
   {
     "id": 2,
     "title": "E-Commerce Platform",
-    "description": "An e-commerce platform with features such as product search, user authentication, and a shopping cart. Built using React, Node.js, and MongoDB.",
+    "description": "Full-stack e-commerce platform with product search, user authentication, shopping cart, and payment integration.",
     "githubLink": "https://github.com/yourusername/ecommerce-platform",
     "liveDemoLink": "https://www.myecommerceplatform.com",
-    "dateCreated": "2023-07-05"
+    "dateCreated": "2023-07-05",
+    "screenshots": [
+      "logo3.png",
+      "logo3.png",
+      "logo3.png"
+    ],
+    "technologies": [
+      { "name": "React", "icon": "⚛️", "color": "#61DAFB" },
+      { "name": "Node.js", "icon": "🟢", "color": "#339933" },
+      { "name": "MongoDB", "icon": "🍃", "color": "#47A248" },
+      { "name": "Express", "icon": "🚀", "color": "#000000" }
+    ],
+    "category": "business"
   },
   {
     "id": 3,
     "title": "Social Media App",
-    "description": "A social media app that allows users to share posts, like, comment, and follow other users. Developed using React Native and Firebase.",
+    "description": "Cross-platform social media application with real-time messaging, post sharing, and user engagement features.",
     "githubLink": "https://github.com/yourusername/social-media-app",
     "liveDemoLink": "https://www.mysocialmediaapp.com",
-    "dateCreated": "2023-10-22"
+    "dateCreated": "2023-10-22",
+    "screenshots": [
+      "logo3.png",
+      "logo3.png",
+      "logo3.png"
+    ],
+    "technologies": [
+      { "name": "React Native", "icon": "📱", "color": "#61DAFB" },
+      { "name": "Firebase", "icon": "🔥", "color": "#FFCA28" },
+      { "name": "TypeScript", "icon": "🔷", "color": "#3178C6" },
+      { "name": "Expo", "icon": "⚫", "color": "#000020" }
+    ],
+    "category": "mobile"
   }
 ]

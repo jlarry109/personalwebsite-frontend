@@ -18,19 +18,32 @@
         <AnimatedCard 
           v-for="(project, index) in projects" 
           :key="project.id" 
-          :category="getProjectCategory(project.title)"
+          :category="project.category || getProjectCategory(project.title)"
           :delay="index * 150"
           class="project-card">
           <div class="project-thumbnail">
-            <img :src="getProjectImage(project.id)" :alt="project.title" />
+            <ImageCarousel 
+              v-if="project.screenshots && project.screenshots.length > 0"
+              :images="project.screenshots"
+              :autoplay="true"
+              :interval="5000" />
+            <img v-else :src="getProjectImage(project.id)" :alt="project.title" />
             <div class="image-overlay"></div>
           </div>
           <div class="project-content">
             <h3>{{ project.title }}</h3>
             <p class="project-description">{{ project.description }}</p>
-            <div class="project-tech">
+            
+            <div class="project-tech" v-if="project.technologies">
+              <TechBadge 
+                v-for="tech in project.technologies" 
+                :key="tech.name"
+                :technology="tech" />
+            </div>
+            <div v-else class="project-tech">
               <span v-for="tech in getProjectTech(project.id)" :key="tech" class="tech-tag">{{ tech }}</span>
             </div>
+            
             <div class="project-meta">
               <span class="date">{{ formatDate(project.dateCreated) }}</span>
             </div>
@@ -38,8 +51,9 @@
               <a v-if="project.githubLink" :href="project.githubLink" target="_blank" class="action-btn github">
                 <span class="icon">🔗</span> GitHub
               </a>
-              <a v-if="project.liveDemoLink" :href="project.liveDemoLink" target="_blank" class="action-btn demo">
+              <a v-if="project.liveDemoLink" :href="project.liveDemoLink" target="_blank" class="action-btn demo live-preview">
                 <span class="icon">🚀</span> Live Demo
+                <div class="preview-glow"></div>
               </a>
             </div>
           </div>
@@ -52,9 +66,11 @@
 <script>
 import BaseTab from "@/components/BaseTab.vue";
 import AnimatedCard from "@/components/AnimatedCard.vue";
+import ImageCarousel from "@/components/ImageCarousel.vue";
+import TechBadge from "@/components/TechBadge.vue";
 
 export default {
-  components: { BaseTab, AnimatedCard },
+  components: { BaseTab, AnimatedCard, ImageCarousel, TechBadge },
   data() {
     return {
       projects: [],
@@ -87,7 +103,7 @@ export default {
     },
     getProjectTech(projectId) {
       const techStacks = {
-        1: ['Java', 'Spring Boot', 'Vue.js'],
+        1: ['Vue.js', 'JavaScript', 'CSS3'],
         2: ['React', 'Node.js', 'MongoDB'],
         3: ['React Native', 'Firebase']
       };
@@ -126,10 +142,8 @@ export default {
   height: 200px;
   overflow: hidden;
   background: #f3f4f6;
-}
-
-.project-thumbnail {
   position: relative;
+  border-radius: 12px 12px 0 0;
 }
 
 .project-thumbnail img {
@@ -148,10 +162,15 @@ export default {
   background: linear-gradient(45deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
   opacity: 0;
   transition: opacity 0.4s ease;
+  z-index: 1;
 }
 
 .project-card:hover .project-thumbnail img {
-  transform: scale(1.08);
+  transform: scale(1.05);
+}
+
+.project-card:hover .image-overlay {
+  opacity: 0.3;
 }
 
 .project-content {
@@ -186,6 +205,12 @@ h3 {
   border-radius: 16px;
   font-size: 12px;
   font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(55, 48, 163, 0.2);
 }
 
 .project-meta {
@@ -211,7 +236,9 @@ h3 {
   text-decoration: none;
   font-weight: 500;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .action-btn.github {
@@ -221,15 +248,55 @@ h3 {
 
 .action-btn.github:hover {
   background: #1f2937;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(55, 65, 81, 0.4);
 }
 
 .action-btn.demo {
-  background: #6366f1;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
+  position: relative;
 }
 
 .action-btn.demo:hover {
-  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.live-preview {
+  position: relative;
+  overflow: hidden;
+}
+
+.live-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.live-preview:hover::before {
+  left: 100%;
+}
+
+.preview-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.live-preview:hover .preview-glow {
+  opacity: 1;
 }
 
 .skeleton-loader {
