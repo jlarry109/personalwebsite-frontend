@@ -106,6 +106,14 @@ export default {
     },
     async downloadResume() {
       try {
+        console.log('Starting resume download...');
+        console.log('Personal info available:', this.personalInfo);
+        
+        if (!this.personalInfo || !this.personalInfo.firstName) {
+          alert('Personal information not loaded yet. Please wait a moment and try again.');
+          return;
+        }
+        
         // Fetch all data needed for resume
         const [skillsRes, experienceRes, educationRes, projectsRes] = await Promise.all([
           fetch(`${import.meta.env.BASE_URL}data/skills.json`),
@@ -114,15 +122,20 @@ export default {
           fetch(`${import.meta.env.BASE_URL}data/projects.json`)
         ]);
         
+        if (!skillsRes.ok || !experienceRes.ok || !educationRes.ok || !projectsRes.ok) {
+          throw new Error('Failed to fetch resume data');
+        }
+        
         const skills = await skillsRes.json();
         const experience = await experienceRes.json();
         const education = await educationRes.json();
         const projects = await projectsRes.json();
         
+        console.log('All data loaded, generating PDF...');
         generateResumePDF(this.personalInfo, experience, education, skills, projects);
       } catch (error) {
         console.error('Failed to generate resume:', error);
-        alert('Failed to generate resume. Please try again.');
+        alert(`Failed to generate resume: ${error.message}. Please try again.`);
       }
     }
   },

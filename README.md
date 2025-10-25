@@ -1,4 +1,4 @@
-# Jones Larry - Personal Portfolio Website
+# Personal Portfolio Website
 
 A modern, responsive portfolio website showcasing my professional journey, skills, and projects. Built with Vue.js and deployed on GitHub Pages with a custom domain.
 
@@ -169,6 +169,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Built with ❤️ by Jones Larry**  
+**Built with ❤️**  
 [Portfolio](https://www.portfolio.joneslarry.com) • [LinkedIn](https://linkedin.com/in/joxlaar) • [GitHub](https://github.com/joxlaar)
 

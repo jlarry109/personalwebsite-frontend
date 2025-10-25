@@ -1,5 +1,18 @@
 export async function generateResumePDF(personalInfo, experience, education, skills, projects) {
+  console.log('PDF Export - Data received:', { personalInfo, experience, education, skills, projects });
+  
+  // Check if data is available
+  if (!personalInfo || !personalInfo.firstName) {
+    alert('Personal information not loaded. Please wait for the page to fully load and try again.');
+    return;
+  }
+  
   const printWindow = window.open('', '_blank');
+  
+  if (!printWindow) {
+    alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
+    return;
+  }
   
   const resumeHTML = `
     <!DOCTYPE html>
