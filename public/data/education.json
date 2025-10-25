@@ -1,6 +1,16 @@
 [
   {
     "id": 1,
+    "schoolName": "University of Oxford",
+    "degree": "Doctor of Philosophy (DPhil) in Mathematical Modelling",
+    "city": "Oxford",
+    "province": "Oxfordshire",
+    "country": "United Kingdom",
+    "startYear": 2024,
+    "endYear": 2025
+  },
+  {
+    "id": 2,
     "schoolName": "Duke University",
     "degree": "Master of Science in Electrical and Computer Engineering",
     "city": "Durham",
@@ -10,7 +20,7 @@
     "endYear": 2024
   },
   {
-    "id": 2,
+    "id": 3,
     "schoolName": "University of Manchester",
     "degree": "Masters in Biomedical Engineering",
     "city": "Manchester",
