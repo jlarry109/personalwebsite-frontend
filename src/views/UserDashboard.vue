@@ -136,14 +136,24 @@ nav {
 }
 
 @media (max-width: 768px) {
+  nav {
+    padding: 5px;
+  }
+  
   .tabs {
-    gap: 5px;
+    gap: 3px;
     padding: 5px;
   }
   
   button {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 6px 8px;
+    font-size: 12px;
+    min-width: auto;
+  }
+  
+  .tab-content {
+    margin-top: 10px;
+    padding: 10px;
   }
 }
 
@@ -242,8 +252,20 @@ button.active {
   color: white;
   font-size: 28px;
   text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px); /* Add blur */
+  backdrop-filter: blur(3px);
   transition: backdrop-filter 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  #intro {
+    height: 200px;
+    font-size: 18px;
+    padding: 0 20px;
+  }
+  
+  #intro h1 {
+    font-size: 20px;
+  }
 }
 #intro::before {
   content: "";
