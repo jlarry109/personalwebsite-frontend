@@ -58,12 +58,11 @@ export default {
     };
   },
   methods: {
-    fetchEducationHistory() {
+    async fetchEducationHistory() {
       this.loading = true;
       try {
-        console.log('VITE_EDUCATION env var:', import.meta.env.VITE_EDUCATION);
-        this.educationHistory = JSON.parse(import.meta.env.VITE_EDUCATION || '[]');
-        console.log('Parsed education history:', this.educationHistory);
+        const response = await fetch(`${import.meta.env.BASE_URL}data/education.json`);
+        this.educationHistory = await response.json();
       } catch (err) {
         this.error = "Failed to load education history.";
         console.error('Education error:', err);

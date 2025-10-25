@@ -42,10 +42,11 @@ export default {
     };
   },
   methods: {
-    fetchTestimonials() {
+    async fetchTestimonials() {
       this.loading = true;
       try {
-        this.testimonials = JSON.parse(import.meta.env.VITE_TESTIMONIALS || '[]');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/testimonials.json`);
+        this.testimonials = await response.json();
       } catch (err) {
         this.error = "Failed to load testimonials.";
         console.error('Testimonials error:', err);

@@ -43,10 +43,11 @@ export default {
     };
   },
   methods: {
-    fetchCertifications() {
+    async fetchCertifications() {
       this.loading = true;
       try {
-        this.certifications = JSON.parse(import.meta.env.VITE_CERTIFICATIONS || '[]');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/certifications.json`);
+        this.certifications = await response.json();
       } catch (err) {
         this.error = "Failed to load certifications.";
         console.error('Certifications error:', err);

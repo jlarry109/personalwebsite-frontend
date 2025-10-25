@@ -56,10 +56,11 @@ export default {
     };
   },
   methods: {
-    fetchProjects() {
+    async fetchProjects() {
       this.loading = true;
       try {
-        this.projects = JSON.parse(import.meta.env.VITE_PROJECTS || '[]');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/projects.json`);
+        this.projects = await response.json();
       } catch (err) {
         this.error = "Failed to load projects.";
         console.error('Projects error:', err);
