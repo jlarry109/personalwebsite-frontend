@@ -15,9 +15,15 @@
         </div>
       </template>
       <div v-else>
-        <div v-for="project in projects" :key="project.id" class="project-card">
+        <AnimatedCard 
+          v-for="(project, index) in projects" 
+          :key="project.id" 
+          :category="getProjectCategory(project.title)"
+          :delay="index * 150"
+          class="project-card">
           <div class="project-thumbnail">
             <img :src="getProjectImage(project.id)" :alt="project.title" />
+            <div class="image-overlay"></div>
           </div>
           <div class="project-content">
             <h3>{{ project.title }}</h3>
@@ -37,7 +43,7 @@
               </a>
             </div>
           </div>
-        </div>
+        </AnimatedCard>
       </div>
     </template>
   </BaseTab>
@@ -45,9 +51,10 @@
 
 <script>
 import BaseTab from "@/components/BaseTab.vue";
+import AnimatedCard from "@/components/AnimatedCard.vue";
 
 export default {
-  components: { BaseTab },
+  components: { BaseTab, AnimatedCard },
   data() {
     return {
       projects: [],
@@ -85,6 +92,18 @@ export default {
         3: ['React Native', 'Firebase']
       };
       return techStacks[projectId] || ['JavaScript', 'HTML', 'CSS'];
+    },
+    getProjectCategory(title) {
+      if (title.toLowerCase().includes('portfolio') || title.toLowerCase().includes('website')) {
+        return 'web';
+      }
+      if (title.toLowerCase().includes('ecommerce') || title.toLowerCase().includes('platform')) {
+        return 'business';
+      }
+      if (title.toLowerCase().includes('social') || title.toLowerCase().includes('app')) {
+        return 'mobile';
+      }
+      return 'default';
     }
   },
   mounted() {
@@ -95,18 +114,11 @@ export default {
 
 <style scoped>
 .project-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
-.project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+.project-card:hover .image-overlay {
+  opacity: 0.3;
 }
 
 .project-thumbnail {
@@ -116,15 +128,30 @@ export default {
   background: #f3f4f6;
 }
 
+.project-thumbnail {
+  position: relative;
+}
+
 .project-thumbnail img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .project-card:hover .project-thumbnail img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .project-content {

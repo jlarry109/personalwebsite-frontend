@@ -28,28 +28,33 @@
         @toggle-view="showTimeline = false"
       />
       
-      <ul v-else class="experience-list">
-        <li v-for="exp in experiences" :key="exp.id">
-          <div class="experience-card">
+      <div v-else class="experience-list">
+        <AnimatedCard 
+          v-for="(exp, index) in experiences" 
+          :key="exp.id"
+          category="experience"
+          :delay="index * 150"
+          class="experience-card">
+          <div class="experience-content">
             <h3>{{ exp.position }} at {{ exp.companyName }}</h3>
             <p class="dates">
               {{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : "Present" }}
             </p>
             <p class="description">{{ exp.description }}</p>
           </div>
-        </li>
-      </ul>
+        </AnimatedCard>
+      </div>
     </template>
   </BaseTab>
 </template>
 
 <script>
 import BaseTab from "@/components/BaseTab.vue";
-
+import AnimatedCard from "@/components/AnimatedCard.vue";
 import TimelineView from "@/components/TimelineView.vue";
 
 export default {
-  components: { BaseTab, TimelineView },
+  components: { BaseTab, AnimatedCard, TimelineView },
   data() {
     return {
       experiences: [],
@@ -94,23 +99,15 @@ export default {
 .experience-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 0 0 0 20px;
-  list-style: disc;
+  gap: 24px;
 }
 
 .experience-card {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  margin-bottom: 0;
 }
 
-.experience-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.experience-content {
+  padding: 24px;
 }
 
 h3 {

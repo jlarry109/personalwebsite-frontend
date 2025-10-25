@@ -29,26 +29,31 @@
         @toggle-view="showTimeline = false"
       />
       
-      <ul v-else class="edu-list">
-        <li v-for="edu in educationHistory" :key="edu.id">
-          <div class="edu-card">
+      <div v-else class="edu-list">
+        <AnimatedCard 
+          v-for="(edu, index) in educationHistory" 
+          :key="edu.id"
+          category="education"
+          :delay="index * 150"
+          class="edu-card">
+          <div class="edu-content">
             <h3>{{ edu.schoolName }}</h3>
             <p><strong>Degree:</strong> {{ edu.degree }}</p>
             <p><strong>Years Attended:</strong> {{ edu.startYear }} - {{ edu.endYear }}</p>
           </div>
-        </li>
-      </ul>
+        </AnimatedCard>
+      </div>
     </template>
   </BaseTab>
 </template>
 
 <script>
 import BaseTab from "@/components/BaseTab.vue";
-
+import AnimatedCard from "@/components/AnimatedCard.vue";
 import TimelineView from "@/components/TimelineView.vue";
 
 export default {
-  components: { BaseTab, TimelineView },
+  components: { BaseTab, AnimatedCard, TimelineView },
   data() {
     return {
       educationHistory: [],
@@ -81,22 +86,15 @@ export default {
 .edu-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 0;
+  gap: 24px;
 }
 
 .edu-card {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  margin-bottom: 0;
 }
 
-.edu-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.edu-content {
+  padding: 24px;
 }
 
 h3 {

@@ -14,26 +14,34 @@
       </div>
     </template>
     <div v-else>
-      <ul class="testimonial-list">
-        <li v-for="testimonial in testimonials" :key="testimonial.id" class="testimonial-item">
-          <blockquote>
-            <p>{{ testimonial.message }}</p>
-          </blockquote>
-          <div class="author">
-            <strong>{{ testimonial.name }}</strong> - {{ testimonial.role }}, {{ testimonial.organization }}
+      <div class="testimonial-list">
+        <AnimatedCard 
+          v-for="(testimonial, index) in testimonials" 
+          :key="testimonial.id"
+          category="testimonial"
+          :delay="index * 150"
+          class="testimonial-item">
+          <div class="testimonial-content">
+            <blockquote>
+              <p>{{ testimonial.message }}</p>
+            </blockquote>
+            <div class="author">
+              <strong>{{ testimonial.name }}</strong> - {{ testimonial.role }}, {{ testimonial.organization }}
+            </div>
+            <div class="date">{{ formatDate(testimonial.submittedAt) }}</div>
           </div>
-          <div class="date">{{ formatDate(testimonial.submittedAt) }}</div>
-        </li>
-      </ul>
+        </AnimatedCard>
+      </div>
     </div>
   </BaseTab>
 </template>
 
 <script>
 import BaseTab from "@/components/BaseTab.vue";
+import AnimatedCard from "@/components/AnimatedCard.vue";
 
 export default {
-  components: { BaseTab },
+  components: { BaseTab, AnimatedCard },
   data() {
     return {
       testimonials: [],
@@ -70,23 +78,18 @@ export default {
 
 <style scoped>
 .testimonial-list {
-  list-style: none;
-  padding: 0;
-}
-.testimonial-item {
-  background: #ffffff;
-  color: #333;
-  padding: 24px;
-  margin: 16px 0;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.testimonial-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.testimonial-item {
+  margin-bottom: 0;
+}
+
+.testimonial-content {
+  padding: 24px;
+  color: #333;
 }
 blockquote {
   font-style: italic;

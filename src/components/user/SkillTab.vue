@@ -21,7 +21,12 @@
         <p>{{ searchQuery ? 'No skills match your search.' : 'Skills will appear here once they are added.' }}</p>
       </div>
       <ul v-else class="skill-list">
-        <li v-for="skill in filteredSkills" :key="skill.id" class="skill-item">
+        <li 
+          v-for="(skill, index) in filteredSkills" 
+          :key="skill.id" 
+          class="skill-item animate-card"
+          :class="getSkillCategory(skill.skillName)"
+          :style="{ animationDelay: `${index * 0.1}s` }">
           <div class="skill-content">
             <span class="skill-name">{{ skill.skillName }}</span>
             <span class="proficiency-label" :class="skill.proficiencyLevel">{{ skill.proficiencyLevel }}</span>
@@ -29,6 +34,7 @@
           <div class="progress-bar">
             <div class="progress-fill" :class="skill.proficiencyLevel" :style="{ width: getProficiencyWidth(skill.proficiencyLevel) }"></div>
           </div>
+          <div class="card-glow" :class="getSkillCategory(skill.skillName)"></div>
         </li>
       </ul>
     </div>
@@ -84,6 +90,21 @@ export default {
         'BEGINNER': '25%'
       };
       return widths[level] || '0%';
+    },
+    getSkillCategory(skillName) {
+      const categories = {
+        programming: ['Java', 'C', 'Python', 'C++'],
+        database: ['SQL', 'MySQL', 'PostgreSQL', 'MongoDB', 'DynamoDB'],
+        cloud: ['AWS', 'Docker'],
+        tools: ['CI/CD', 'GIT', 'JUnit', 'Mockito', 'IntelliJ IDEA', 'Eclipse', 'VS Code', 'Postman']
+      };
+      
+      for (const [category, skills] of Object.entries(categories)) {
+        if (skills.includes(skillName)) {
+          return `category-${category}`;
+        }
+      }
+      return 'category-other';
     }
   },
   mounted() {
@@ -113,10 +134,36 @@ export default {
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 16px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+}
+
+.animate-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 16px;
 }
 
 .skill-item::before {
@@ -132,9 +179,54 @@ export default {
 }
 
 .skill-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.12), 0 15px 15px -5px rgba(0, 0, 0, 0.08);
   border-color: #cbd5e1;
+}
+
+.skill-item:hover .card-glow {
+  opacity: 0.1;
+}
+
+/* Category Colors */
+.category-programming {
+  border-left: 4px solid #3b82f6;
+}
+
+.category-programming .card-glow {
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+}
+
+.category-database {
+  border-left: 4px solid #10b981;
+}
+
+.category-database .card-glow {
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+}
+
+.category-cloud {
+  border-left: 4px solid #8b5cf6;
+}
+
+.category-cloud .card-glow {
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+}
+
+.category-tools {
+  border-left: 4px solid #f59e0b;
+}
+
+.category-tools .card-glow {
+  background: radial-gradient(circle at center, rgba(245, 158, 11, 0.3) 0%, transparent 70%);
+}
+
+.category-other {
+  border-left: 4px solid #6b7280;
+}
+
+.category-other .card-glow {
+  background: radial-gradient(circle at center, rgba(107, 114, 128, 0.3) 0%, transparent 70%);
 }
 
 .skill-item:hover::before {

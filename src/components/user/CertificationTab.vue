@@ -14,9 +14,14 @@
       </div>
     </template>
     <template v-else>
-      <ul class="cert-list">
-        <li v-for="cert in certifications" :key="cert.id">
-          <div class="cert-card">
+      <div class="cert-list">
+        <AnimatedCard 
+          v-for="(cert, index) in certifications" 
+          :key="cert.id"
+          category="certification"
+          :delay="index * 150"
+          class="cert-card">
+          <div class="cert-content">
             <h3>{{ cert.certificationName }}</h3>
             <p><strong>Issuing Organization:</strong> {{ cert.issuingOrganization }}</p>
             <p><strong>Date Earned:</strong> {{ formatDate(cert.dateObtained) }}</p>
@@ -24,17 +29,18 @@
               <a :href="cert.certificationUrl" target="_blank">View Certification</a>
             </p>
           </div>
-        </li>
-      </ul>
+        </AnimatedCard>
+      </div>
     </template>
   </BaseTab>
 </template>
 
 <script>
 import BaseTab from "@/components/BaseTab.vue";
+import AnimatedCard from "@/components/AnimatedCard.vue";
 
 export default {
-  components: { BaseTab },
+  components: { BaseTab, AnimatedCard },
   data() {
     return {
       certifications: [],
@@ -69,20 +75,15 @@ export default {
 .cert-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 0;
+  gap: 24px;
 }
 
 .cert-card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  margin-bottom: 0;
 }
 
-.cert-card:hover {
-  transform: translateY(-3px);
+.cert-content {
+  padding: 20px;
 }
 
 h3 {
