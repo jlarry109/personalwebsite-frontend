@@ -76,7 +76,7 @@ export default {
       });
     },
     getProjectImage(projectId) {
-      return '/logo3.png';
+      return `${import.meta.env.BASE_URL}logo3.png`;
     },
     getProjectTech(projectId) {
       const techStacks = {
