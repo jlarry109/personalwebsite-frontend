@@ -59,12 +59,10 @@ export default {
     }
   },
   methods: {
-    async fetchSkills() {
+    fetchSkills() {
       this.loading = true;
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}data/skills.json`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        this.skills = await response.json();
+        this.skills = JSON.parse(import.meta.env.VITE_SKILLS || '[]');
         console.log('Skills loaded:', this.skills);
       } catch (err) {
         this.error = "Failed to load skills.";

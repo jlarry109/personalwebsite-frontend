@@ -59,11 +59,10 @@ export default {
     };
   },
   methods: {
-    async fetchExperiences() {
+    fetchExperiences() {
       this.loading = true;
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}data/experience.json`);
-        const data = await response.json();
+        const data = JSON.parse(import.meta.env.VITE_EXPERIENCE || '[]');
         this.experiences = data.sort((a, b) => {
           const dateA = new Date(a.startDate);
           const dateB = new Date(b.startDate);
