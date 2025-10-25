@@ -7,7 +7,18 @@
     "province": "Oxfordshire",
     "country": "United Kingdom",
     "startYear": 2024,
-    "endYear": 2025
+    "endYear": 2025,
+    "gpa": "Distinction",
+    "coursework": [
+      "Advanced Mathematical Modelling",
+      "Computational Methods",
+      "Statistical Analysis"
+    ],
+    "achievements": [
+      "Rhodes Scholar",
+      "Published 3 research papers",
+      "Teaching Assistant for undergraduate courses"
+    ]
   },
   {
     "id": 2,
@@ -17,7 +28,18 @@
     "province": "North Carolina",
     "country": "United States",
     "startYear": 2022,
-    "endYear": 2024
+    "endYear": 2024,
+    "gpa": "3.9/4.0",
+    "coursework": [
+      "Machine Learning",
+      "Computer Vision",
+      "Signal Processing"
+    ],
+    "achievements": [
+      "Dean's List (4 semesters)",
+      "Graduate Research Assistant",
+      "IEEE Student Member"
+    ]
   },
   {
     "id": 3,
@@ -27,6 +49,17 @@
     "province": "Greater Manchester",
     "country": "United Kingdom",
     "startYear": 2019,
-    "endYear": 2020
+    "endYear": 2020,
+    "gpa": "First Class Honours",
+    "coursework": [
+      "Biomechanics",
+      "Medical Device Design",
+      "Biomedical Signal Processing"
+    ],
+    "achievements": [
+      "Best Thesis Award",
+      "President of Engineering Society",
+      "Volunteer at local hospital"
+    ]
   }
 ]
