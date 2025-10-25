@@ -20,8 +20,14 @@
 
     <!-- Hero Section -->
     <section id="intro">
+      <div class="particles-container">
+        <div v-for="n in 50" :key="n" class="particle" :style="getParticleStyle(n)"></div>
+      </div>
       <div class="hero-content">
-        <h1>Building. Learning. Evolving.</h1>
+        <div class="hero-image">
+          <img src="@/assets/hq1-hero-2550px.jpg" alt="Jones Larry" class="profile-image" />
+        </div>
+        <h1 class="typing-text">{{ displayedText }}<span class="cursor">|</span></h1>
         <p class="hero-subtitle">Crafting intelligent solutions through continuous growth</p>
       </div>
     </section>
@@ -52,12 +58,17 @@ export default {
     return {
       tabs: ["About Me", "Personal Info", "Education", "Experience", "Skills", "Certifications", "Projects", "Testimonials"],
       activeTab: "About Me",
-      isMobile: false
+      isMobile: false,
+      fullText: "Building. Learning. Evolving.",
+      displayedText: "",
+      typingIndex: 0,
+      isTyping: true
     };
   },
   mounted() {
     this.checkMobile();
     window.addEventListener('resize', this.checkMobile);
+    this.startTypingAnimation();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile);
@@ -104,6 +115,32 @@ export default {
     },
     goToLogin() {
       this.$router.push("/login");
+    },
+    startTypingAnimation() {
+      const typeChar = () => {
+        if (this.typingIndex < this.fullText.length) {
+          this.displayedText += this.fullText[this.typingIndex];
+          this.typingIndex++;
+          setTimeout(typeChar, 100);
+        } else {
+          this.isTyping = false;
+        }
+      };
+      setTimeout(typeChar, 1000);
+    },
+    getParticleStyle(index) {
+      const size = Math.random() * 4 + 2;
+      const left = Math.random() * 100;
+      const animationDelay = Math.random() * 20;
+      const animationDuration = Math.random() * 10 + 10;
+      
+      return {
+        width: `${size}px`,
+        height: `${size}px`,
+        left: `${left}%`,
+        animationDelay: `${animationDelay}s`,
+        animationDuration: `${animationDuration}s`
+      };
     }
   }
 };
@@ -359,34 +396,84 @@ button.active {
   overflow: hidden;
 }
 
-#intro::before {
-  content: '';
+.particles-container {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></svg>') repeat;
-  background-size: 50px 50px;
-  animation: float 20s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: particleFloat infinite ease-in-out;
+}
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 1;
+  }
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
-.hero-content h1 {
+.hero-image {
+  position: relative;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: profilePulse 3s ease-in-out infinite;
+}
+
+@keyframes profilePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.typing-text {
   font-size: 48px;
   font-weight: 700;
   margin-bottom: 16px;
   letter-spacing: -0.025em;
   line-height: 1.1;
+  min-height: 58px;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
 .hero-subtitle {
@@ -394,6 +481,7 @@ button.active {
   opacity: 0.9;
   font-weight: 400;
   line-height: 1.5;
+  animation: fadeInUp 1s ease-out 2s both;
 }
 
 @media (max-width: 768px) {
@@ -401,12 +489,22 @@ button.active {
     padding: 80px 20px;
   }
   
-  .hero-content h1 {
-    font-size: 36px;
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .typing-text {
+    font-size: 32px;
+    min-height: 38px;
   }
   
   .hero-subtitle {
     font-size: 18px;
+  }
+  
+  .hero-content {
+    gap: 20px;
   }
 }
 #intro::before {
