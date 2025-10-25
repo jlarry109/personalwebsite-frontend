@@ -1,25 +1,34 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { RouterView } from "vue-router";
 import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";  
+import Footer from "@/components/Footer.vue";
+import LoadingSplash from "@/components/LoadingSplash.vue";
+import DarkModeToggle from "@/components/DarkModeToggle.vue";
+import { useFavicon } from "@/composables/useFavicon.js";
+import { useDarkMode } from "@/composables/useDarkMode.js";
+
+const { animateFavicon } = useFavicon();
+const { initDarkMode } = useDarkMode();
+
+onMounted(() => {
+  animateFavicon();
+  initDarkMode();
+});
 </script>
 
 <template>
+  <LoadingSplash />
+  <DarkModeToggle />
   <Header />
-  <RouterView />
+  <main>
+    <RouterView />
+  </main>
   <Footer />
 </template>
 
 <style>
 @import "@/assets/css/main.css";
-
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
 
 #app {
   display: flex;
@@ -27,11 +36,7 @@ html, body {
   min-height: 100vh;
 }
 
-RouterView {
-  flex-grow: 1;
-}
-
-Footer {
-  width: 100%;
+main {
+  flex: 1;
 }
 </style>

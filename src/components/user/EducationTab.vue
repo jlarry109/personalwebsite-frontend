@@ -15,7 +15,21 @@
 	</template>
 
     <template v-else>
-      <ul class="edu-list">
+      <div class="view-controls">
+        <button @click="showTimeline = !showTimeline" class="view-toggle">
+          {{ showTimeline ? '📋 List View' : '📅 Timeline View' }}
+        </button>
+      </div>
+      
+      <TimelineView 
+        v-if="showTimeline"
+        :items="educationHistory"
+        title="Education"
+        :is-experience="false"
+        @toggle-view="showTimeline = false"
+      />
+      
+      <ul v-else class="edu-list">
         <li v-for="edu in educationHistory" :key="edu.id">
           <div class="edu-card">
             <h3>{{ edu.schoolName }}</h3>
@@ -31,13 +45,16 @@
 <script>
 import BaseTab from "@/components/BaseTab.vue";
 
+import TimelineView from "@/components/TimelineView.vue";
+
 export default {
-  components: { BaseTab },
+  components: { BaseTab, TimelineView },
   data() {
     return {
       educationHistory: [],
       loading: false,
       error: null,
+      showTimeline: false,
     };
   },
   methods: {
@@ -68,15 +85,17 @@ export default {
 }
 
 .edu-card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
 }
 
 .edu-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 h3 {
@@ -134,5 +153,27 @@ p {
   border: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+.view-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.view-toggle {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-toggle:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
 }
 </style>

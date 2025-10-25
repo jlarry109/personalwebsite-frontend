@@ -14,20 +14,31 @@
      </div>
    </template>
     <template v-else>
-      <div class="experience-list">
-        <div v-for="exp in experiences" :key="exp.id" class="experience-card">
-          <h3>{{ exp.position }} at {{ exp.companyName }}</h3>
-          <p class="dates">
-            {{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : "Present" }}
-          </p>
-          <p class="description">{{ exp.description }}</p>
-          <ul class="task-list">
-            <li v-for="detail in exp.details" :key="detail.id">
-              {{ detail.taskDescription }}
-            </li>
-          </ul>
-        </div>
+      <div class="view-controls">
+        <button @click="showTimeline = !showTimeline" class="view-toggle">
+          {{ showTimeline ? '📋 List View' : '📅 Timeline View' }}
+        </button>
       </div>
+      
+      <TimelineView 
+        v-if="showTimeline"
+        :items="experiences"
+        title="Work Experience"
+        :is-experience="true"
+        @toggle-view="showTimeline = false"
+      />
+      
+      <ul v-else class="experience-list">
+        <li v-for="exp in experiences" :key="exp.id">
+          <div class="experience-card">
+            <h3>{{ exp.position }} at {{ exp.companyName }}</h3>
+            <p class="dates">
+              {{ formatDate(exp.startDate) }} - {{ exp.endDate ? formatDate(exp.endDate) : "Present" }}
+            </p>
+            <p class="description">{{ exp.description }}</p>
+          </div>
+        </li>
+      </ul>
     </template>
   </BaseTab>
 </template>
@@ -35,13 +46,16 @@
 <script>
 import BaseTab from "@/components/BaseTab.vue";
 
+import TimelineView from "@/components/TimelineView.vue";
+
 export default {
-  components: { BaseTab },
+  components: { BaseTab, TimelineView },
   data() {
     return {
       experiences: [],
       loading: false,
       error: null,
+      showTimeline: false,
     };
   },
   methods: {
@@ -49,7 +63,12 @@ export default {
       this.loading = true;
       try {
         const response = await fetch('./data/experience.json');
-        this.experiences = await response.json();
+        const data = await response.json();
+        this.experiences = data.sort((a, b) => {
+          const dateA = new Date(a.startDate);
+          const dateB = new Date(b.startDate);
+          return dateB - dateA;
+        });
       } catch (err) {
         this.error = "Failed to load work experience.";
         console.error('Experience error:', err);
@@ -58,7 +77,11 @@ export default {
       }
     },
     formatDate(dateString) {
-      return new Date(dateString).toLocaleDateString();
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short' 
+      });
     },
   },
   mounted() {
@@ -72,18 +95,22 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding: 0 0 0 20px;
+  list-style: disc;
 }
 
 .experience-card {
-  background: white;
-  padding: 20px;
+  background: #ffffff;
+  padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
 }
 
 .experience-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 h3 {
@@ -95,13 +122,14 @@ h3 {
 .dates {
   font-size: 14px;
   color: #777;
-  margin-bottom: 10px;
+  margin: 5px 0;
 }
 
 .description {
   font-size: 16px;
-  color: #555;
+  color: #333;
   line-height: 1.5;
+  margin: 5px 0;
 }
 
 .task-list {
@@ -168,5 +196,27 @@ h3 {
   border: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+.view-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.view-toggle {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-toggle:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
 }
 </style>

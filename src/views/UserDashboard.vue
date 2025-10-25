@@ -18,9 +18,12 @@
     </nav>
 
 
-    <!-- Parallax Intro Section -->
-    <section id="intro" :v-parallax="isMobile ? 0.1 : 0.3">
-      <h1>Building. Learning. Evolving.</h1>
+    <!-- Hero Section -->
+    <section id="intro">
+      <div class="hero-content">
+        <h1>Jones Larry</h1>
+        <p class="hero-subtitle">Machine Learning Engineer & Software Developer</p>
+      </div>
     </section>
 
     <!-- Smooth Scrolling Sections -->
@@ -108,28 +111,32 @@ export default {
 
 <style scoped>
 .user-dashboard {
-  max-width: 900px;
+  max-width: 1200px;
   margin: auto;
-  padding: 0 10px;
+  padding: 0 20px;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
 @media (max-width: 768px) {
   .user-dashboard {
-    padding: 0 5px;
+    padding: 0 16px;
   }
 }
 
 
 
 nav {
-	position: relative;
+	position: sticky;
+	top: 0;
 	z-index: 100;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-bottom: 2px solid #ddd;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e5e7eb;
 }
 
  .tabs-scroll-container {
@@ -141,30 +148,57 @@ nav {
 
 .tabs {
   display: inline-flex;
-  gap: 10px;
-  padding: 10px;
+  gap: 8px;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 30px;
   min-width: max-content;
 }
 
 @media (max-width: 768px) {
   nav {
-    padding: 5px;
+    padding: 16px;
+  }
+  
+  .tabs-scroll-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative;
+  }
+  
+  .tabs-scroll-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(90deg, transparent, #f8f9fa);
+    pointer-events: none;
+  }
+  
+  .tabs-scroll-container::-webkit-scrollbar {
+    display: none;
   }
   
   .tabs {
-    gap: 3px;
-    padding: 5px;
+    gap: 6px;
+    padding: 6px;
   }
   
   button {
-    padding: 6px 8px;
-    font-size: 12px;
-    min-width: auto;
+    padding: 12px 20px;
+    font-size: 14px;
+    min-width: 120px;
+    line-height: 1.4;
   }
   
   .tab-content {
-    margin-top: 10px;
-    padding: 10px;
+    margin-top: 16px;
+    padding: 16px;
   }
 }
 
@@ -193,17 +227,36 @@ nav {
 
 button {
   flex-shrink: 0;
-  padding: 10px 15px;
-  border: none;
-  background: lightgray;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  background: transparent;
   cursor: pointer;
   white-space: nowrap;
+  border-radius: 25px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.3s ease;
+  min-height: 44px;
+  min-width: 44px;
 }
 
+button:hover {
+  background: #f3f4f6;
+  color: #374151;
+  transform: translateY(-1px);
+}
+
+button:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
 
 button.active {
-  background: gray;
+  background: #6366f1;
   color: white;
+  border-color: #6366f1;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
 }
 .login-btn {
   padding: 8px 15px;
@@ -219,8 +272,26 @@ button.active {
 
 .tab-content {
   margin-top: 20px;
+  margin-bottom: 200px;
   padding: 15px;
-  animation: fadeIn 0.4s ease-in-out;
+}
+
+.fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.fade-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.fade-enter-from {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.fade-leave-to {
+  transform: translateX(-30px);
+  opacity: 0;
 }
 
 @keyframes fadeIn {
@@ -255,29 +326,62 @@ button.active {
 }
 
 #intro {
-  background: url('@/assets/images/bg.jpg') center/cover no-repeat;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 120px 0;
+  text-align: center;
   color: white;
-  font-size: 28px;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px);
-  transition: backdrop-filter 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+#intro::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></svg>') repeat;
+  background-size: 50px 50px;
+  animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 20px;
+  opacity: 0.9;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 @media (max-width: 768px) {
   #intro {
-    height: 200px;
-    font-size: 18px;
-    padding: 0 20px;
-    background-size: cover;
-    background-position: center center;
+    padding: 80px 20px;
   }
   
-  #intro h1 {
-    font-size: 20px;
+  .hero-content h1 {
+    font-size: 36px;
+  }
+  
+  .hero-subtitle {
+    font-size: 18px;
   }
 }
 #intro::before {
@@ -289,11 +393,19 @@ button.active {
   height: 100%;
   background: rgba(0, 0, 0, 0.4); /* Dark overlay */
 }
-/* Fade transition for tabs */
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .fade-enter-active, .fade-leave-active {
+    transition: none;
+  }
+  
+  button:hover, button.active {
+    transform: none;
+  }
 }
 </style>
