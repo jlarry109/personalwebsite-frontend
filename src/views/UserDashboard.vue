@@ -1,20 +1,30 @@
 <template>
   <div class="user-dashboard">
-    <nav>
-      <div class="tabs-scroll-container">
-        <div class="tabs">
-          <button 
-            v-for="tab in tabs" 
-            :key="tab" 
-            :href="'#' + tab.toLowerCase().replace(/\s/g, '-')"
-            v-scrolly
-            @click="changeTab(tab)"
-            :class="{ active: activeTab === tab }">
-            {{ tab }}
-          </button>
+    <nav :class="{ 'nav-scrolled': isScrolled }">
+      <div class="nav-content">
+        <div class="breadcrumb-container">
+          <div class="breadcrumbs">
+            <span v-for="(crumb, index) in breadcrumbs" :key="index" class="breadcrumb">
+              {{ crumb.name }}
+              <span v-if="index < breadcrumbs.length - 1" class="breadcrumb-separator">→</span>
+            </span>
+            <span class="breadcrumb active-breadcrumb">{{ activeTab }}</span>
+          </div>
+        </div>
+        <div class="tabs-scroll-container">
+          <div class="tabs">
+            <div class="tab-slider" :style="sliderStyle"></div>
+            <button 
+              v-for="(tab, index) in tabs" 
+              :key="tab" 
+              @click="changeTab(tab)"
+              :class="{ active: activeTab === tab }"
+              class="tab-button">
+              {{ tab }}
+            </button>
+          </div>
         </div>
       </div>
-      <div class="tab-indicator" :style="indicatorStyle"></div>
     </nav>
 
 
@@ -62,25 +72,34 @@ export default {
       fullText: "Building. Learning. Evolving.",
       displayedText: "",
       typingIndex: 0,
-      isTyping: true
+      isTyping: true,
+      isScrolled: false,
+      breadcrumbs: [
+        { name: 'Home', path: '/' },
+        { name: 'Portfolio', path: '/portfolio' }
+      ]
     };
   },
   mounted() {
     this.checkMobile();
     window.addEventListener('resize', this.checkMobile);
+    window.addEventListener('scroll', this.handleScroll);
     this.startTypingAnimation();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile);
+    window.removeEventListener('scroll', this.handleScroll);
   },
   computed: {
-      indicatorStyle() {
-        const index = this.tabs.indexOf(this.activeTab);
-        return {
-          transform: `translateX(${index * 100}%)`,
-        };
-      }
-    },
+    sliderStyle() {
+      const index = this.tabs.indexOf(this.activeTab);
+      const tabWidth = 100 / this.tabs.length;
+      return {
+        transform: `translateX(${index * 100}%)`,
+        width: `${tabWidth}%`
+      };
+    }
+  },
   methods: {
 	  changeTab(tab) {
 	    console.log("Switching to tab:", tab);
@@ -141,6 +160,9 @@ export default {
         animationDelay: `${animationDelay}s`,
         animationDuration: `${animationDuration}s`
       };
+    },
+    handleScroll() {
+      this.isScrolled = window.scrollY > 100;
     }
   }
 };
@@ -169,22 +191,71 @@ export default {
 
 
 nav {
-	position: sticky;
-	top: 0;
-	z-index: 100;
-	display: flex;
-	justify-content: center;
-  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+nav.nav-scrolled {
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
 }
 
 .dark nav {
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+.dark nav.nav-scrolled {
   background: rgba(15, 23, 42, 0.95);
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.breadcrumb-container {
+  display: flex;
+  justify-content: center;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-separator {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.active-breadcrumb {
+  color: #6366f1;
+  font-weight: 600;
 }
 
  .tabs-scroll-container {
@@ -195,22 +266,49 @@ nav {
 }
 
 .tabs {
+  position: relative;
   display: inline-flex;
-  gap: 8px;
-  padding: 8px;
-  background: #f8f9fa;
+  padding: 6px;
+  background: rgba(248, 249, 250, 0.8);
   border-radius: 30px;
   min-width: max-content;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 231, 235, 0.5);
 }
 
 .dark .tabs {
-  background: #1e293b;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.tab-slider {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  height: calc(100% - 12px);
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
   nav {
     padding: 16px;
+  }
+  
+  nav.nav-scrolled {
+    padding: 12px 16px;
+  }
+  
+  .nav-content {
+    gap: 12px;
+  }
+  
+  .breadcrumbs {
+    font-size: 12px;
   }
   
   .tabs-scroll-container {
@@ -221,32 +319,19 @@ nav {
     position: relative;
   }
   
-  .tabs-scroll-container::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 8px;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(90deg, transparent, #f8f9fa);
-    pointer-events: none;
-  }
-  
   .tabs-scroll-container::-webkit-scrollbar {
     display: none;
   }
   
   .tabs {
-    gap: 6px;
-    padding: 6px;
+    padding: 4px;
+    min-width: max-content;
   }
   
-  button {
-    padding: 12px 20px;
-    font-size: 14px;
-    min-width: 120px;
-    line-height: 1.4;
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    min-width: 100px;
   }
   
   .tab-content {
@@ -278,47 +363,44 @@ nav {
   display: none; /* hide scrollbar */
 }
 
-button {
-  flex-shrink: 0;
-  padding: 12px 24px;
-  border: 1px solid transparent;
+.tab-button {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
   background: transparent;
   cursor: pointer;
   white-space: nowrap;
-  border-radius: 25px;
+  border-radius: 24px;
   font-weight: 500;
   color: #6b7280;
   transition: all 0.3s ease;
   min-height: 44px;
-  min-width: 44px;
+  font-size: 14px;
 }
 
-.dark button {
+.dark .tab-button {
   color: #94a3b8;
 }
 
-.dark button:hover {
-  background: #334155;
-  color: #e2e8f0;
-}
-
-button:hover {
-  background: #f3f4f6;
+.tab-button:hover {
   color: #374151;
   transform: translateY(-1px);
 }
 
-button:focus {
-  outline: 2px solid #6366f1;
-  outline-offset: 2px;
+.dark .tab-button:hover {
+  color: #e2e8f0;
 }
 
-button.active {
-  background: #6366f1;
+.tab-button.active {
   color: white;
-  border-color: #6366f1;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-  transform: translateY(-1px);
+  font-weight: 600;
+}
+
+.tab-button:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
 }
 .login-btn {
   padding: 8px 15px;
