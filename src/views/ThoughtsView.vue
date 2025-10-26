@@ -12,25 +12,32 @@
           :key="tag"
           @click="toggleTag(tag)"
           :class="{ active: selectedTags.includes(tag) }"
-          class="tag-button"
+          class="tag-button btn-press"
         >
           {{ tag }}
         </button>
       </div>
-      <button @click="clearFilters" class="clear-button" v-if="selectedTags.length > 0">
+      <button @click="clearFilters" class="clear-button btn-bounce" v-if="selectedTags.length > 0">
         Clear All
       </button>
     </div>
     
-    <div class="thoughts-grid">
+    <SkeletonLoader v-if="loading" type="grid" :count="4" animation="shimmer" />
+    
+    <div v-else-if="error" class="error-state">
+      <p>{{ error }}</p>
+    </div>
+    
+    <div v-else class="thoughts-grid">
       <AnimatedCard 
         v-for="(article, index) in filteredArticles" 
         :key="article.id"
         category="default"
         :delay="index * 100"
-        class="thought-card" 
+        class="thought-card card-lift animate-stagger" 
         :class="{ 'coming-soon': article.comingSoon }"
-        @click="goToArticle(article.slug)"
+        @click="article.comingSoon ? null : goToArticle(article.slug)"
+        :style="{ cursor: article.comingSoon ? 'default' : 'pointer' }"
       >
         <div class="card-header">
           <div class="tags">
@@ -54,57 +61,22 @@
 
 <script lang="js">
 import AnimatedCard from '@/components/AnimatedCard.vue';
+import SkeletonLoader from '@/components/SkeletonLoader.vue';
 
 export default {
   name: 'ThoughtsView',
-  components: { AnimatedCard },
+  components: { AnimatedCard, SkeletonLoader },
   data() {
     return {
       selectedTags: [],
       availableTags: ['Technology', 'Society', 'Economics', 'Law', 'Capitalism', 'Socialism', 'Tax', 'Innovation', 'AI', 'Politics'],
-      articles: [
-        {
-          id: 1,
-          title: 'The Future of AI in Software Development',
-          excerpt: 'How artificial intelligence is reshaping not just what we build, but how we think about building software solutions...',
-          tags: ['Technology', 'AI', 'Innovation'],
-          date: 'Dec 2024',
-          readTime: '3 min read',
-          slug: 'ai-software-development',
-          comingSoon: false
-        },
-        {
-          id: 2,
-          title: 'Economic Models in the Digital Age',
-          excerpt: 'Exploring how traditional economic theories apply to our increasingly digital world...',
-          tags: ['Economics', 'Technology', 'Society'],
-          date: 'Coming Soon',
-          readTime: '5 min read',
-          slug: 'digital-economics',
-          comingSoon: true
-        },
-        {
-          id: 3,
-          title: 'Legal Frameworks for AI Governance',
-          excerpt: 'The intersection of law and artificial intelligence in modern society...',
-          tags: ['Law', 'AI', 'Politics'],
-          date: 'Coming Soon',
-          readTime: '4 min read',
-          slug: 'ai-legal-frameworks',
-          comingSoon: true
-        },
-        {
-          id: 4,
-          title: 'Capitalism vs Socialism in Tech',
-          excerpt: 'How different economic systems shape technological innovation and distribution...',
-          tags: ['Economics', 'Capitalism', 'Socialism', 'Technology'],
-          date: 'Coming Soon',
-          readTime: '6 min read',
-          slug: 'economic-systems-tech',
-          comingSoon: true
-        }
-      ]
+      articles: [],
+      loading: true,
+      error: null
     }
+  },
+  async created() {
+    await this.fetchArticles()
   },
   computed: {
     filteredArticles() {
@@ -117,6 +89,18 @@ export default {
     }
   },
   methods: {
+    async fetchArticles() {
+      try {
+        const response = await fetch(`${import.meta.env.BASE_URL}data/articles.json`)
+        if (!response.ok) throw new Error('Failed to fetch articles')
+        this.articles = await response.json()
+      } catch (err) {
+        this.error = 'Failed to load articles'
+        console.error('Articles fetch error:', err)
+      } finally {
+        this.loading = false
+      }
+    },
     goToArticle(slug) {
       this.$router.push(`/thoughts/${slug}`);
     },
@@ -261,6 +245,13 @@ export default {
   text-align: center;
   padding: 60px 20px;
   color: #64748b;
+  font-size: 18px;
+}
+
+.error-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #ef4444;
   font-size: 18px;
 }
 

@@ -16,13 +16,13 @@
       
       <!-- Social Icons -->
       <div class="social-icons">
-        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter icon-bounce"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-github icon-rotate"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin icon-glow"></i></a>
       </div>
       
       <!-- Mobile Menu Button -->
-      <button class="mobile-menu-btn" @click="toggleMobileMenu" :class="{ active: isMobileMenuOpen }">
+      <button class="mobile-menu-btn btn-press" @click="toggleMobileMenu" :class="{ active: isMobileMenuOpen }">
         <span></span>
         <span></span>
         <span></span>
@@ -38,7 +38,7 @@
     <div class="mobile-menu" @click.stop>
       <div class="mobile-menu-header">
         <span class="mobile-logo text-gradient-primary">Jones Larry</span>
-        <button class="close-btn" @click="closeMobileMenu">&times;</button>
+        <button class="close-btn btn-press" @click="closeMobileMenu">&times;</button>
       </div>
       <ul class="mobile-nav-links">
         <li><router-link to="/" @click="closeMobileMenu">Home</router-link></li>
@@ -46,9 +46,9 @@
         <li><router-link to="/elements" @click="closeMobileMenu">Elements</router-link></li>
       </ul>
       <div class="mobile-social">
-        <a href="#" class="mobile-social-link"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="mobile-social-link"><i class="fab fa-github"></i></a>
-        <a href="#" class="mobile-social-link"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="mobile-social-link"><i class="fab fa-twitter icon-bounce"></i></a>
+        <a href="#" class="mobile-social-link"><i class="fab fa-github icon-rotate"></i></a>
+        <a href="#" class="mobile-social-link"><i class="fab fa-linkedin icon-glow"></i></a>
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
       <h1 class="hero-title text-gradient-animated">Welcome to My Personal Website</h1>
       <p class="hero-subtitle lead">Explore my projects, skills, and experiences</p>
       <div class="hero-cta">
-        <button @click="scrollToPortfolio" class="cta-button">Explore Portfolio</button>
+        <button @click="scrollToPortfolio" class="cta-button btn-press btn-ripple">Explore Portfolio</button>
       </div>
     </div>
   </header>

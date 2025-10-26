@@ -8,6 +8,7 @@ import DarkModeToggle from "@/components/DarkModeToggle.vue";
 import ScrollToTop from "@/components/ScrollToTop.vue";
 import LoadingProgress from "@/components/LoadingProgress.vue";
 import CursorTrail from "@/components/CursorTrail.vue";
+import PageTransition from "@/components/PageTransition.vue";
 import { useFavicon } from "@/composables/useFavicon.js";
 import { useDarkMode } from "@/composables/useDarkMode.js";
 
@@ -28,9 +29,9 @@ onMounted(() => {
   <Header />
   <main>
     <RouterView v-slot="{ Component, route }">
-      <Transition name="page" mode="out-in">
+      <PageTransition :stagger="true">
         <component :is="Component" :key="route.path" />
-      </Transition>
+      </PageTransition>
     </RouterView>
   </main>
   <Footer />
@@ -41,6 +42,7 @@ onMounted(() => {
 @import "@/assets/css/main.css";
 @import "@/assets/css/animations.css";
 @import "@/assets/css/backgrounds.css";
+@import "@/assets/css/micro-interactions.css";
 
 #app {
   display: flex;

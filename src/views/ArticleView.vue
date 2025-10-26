@@ -1,60 +1,85 @@
 <template>
   <div class="article-view">
-    <div class="article-header">
-      <router-link to="/thoughts" class="back-link">← Back to Thoughts</router-link>
-      <div class="article-meta">
-        <span class="category">Technology</span>
-        <time>December 2024</time>
-        <span class="read-time">3 min read</span>
+    <SkeletonLoader v-if="loading" type="profile" animation="shimmer" />
+    
+    <div v-else-if="article" class="article-container">
+      <div class="article-header">
+        <router-link to="/thoughts" class="back-link btn-press">← Back to Thoughts</router-link>
+        <div class="article-meta">
+          <div class="tags">
+            <span v-for="tag in article.tags" :key="tag" class="tag">{{ tag }}</span>
+          </div>
+          <time>{{ article.date }}</time>
+          <span class="read-time">{{ article.readTime }}</span>
+        </div>
+        <h1 class="article-title">{{ article.title }}</h1>
+        <p class="article-subtitle">{{ article.excerpt }}</p>
       </div>
-      <h1>The Future of AI in Software Development</h1>
-      <p class="article-subtitle">How artificial intelligence is reshaping not just what we build, but how we think about building software solutions</p>
+
+      <article class="article-content">
+        <div v-if="article.comingSoon" class="coming-soon">
+          <div class="coming-soon-icon">🚧</div>
+          <h2>Coming Soon</h2>
+          <p>This article is currently being written. Check back soon for the full content!</p>
+        </div>
+        <div v-else v-html="article.content"></div>
+      </article>
     </div>
-
-    <article class="article-content">
-      <p>As we stand at the intersection of artificial intelligence and software engineering, I find myself reflecting on how these tools are fundamentally reshaping our industry. We're not just witnessing the automation of repetitive tasks—we're seeing a transformation in how we approach problem-solving itself.</p>
-
-      <h2>The Current Landscape</h2>
-      <p>Today's AI-powered development tools have moved beyond simple code completion. They're becoming collaborative partners that can understand context, suggest architectural patterns, and even help debug complex issues. Tools like GitHub Copilot, ChatGPT, and Claude are changing how we write, review, and maintain code.</p>
-
-      <p>But this is just the beginning. The real transformation lies in how these tools are changing our thought processes and workflows.</p>
-
-      <h2>Shifting Mental Models</h2>
-      <p>Traditional software development has always been about breaking down complex problems into smaller, manageable pieces. AI is enhancing this process by helping us:</p>
-
-      <ul>
-        <li><strong>Rapid prototyping:</strong> Quickly explore multiple solution approaches</li>
-        <li><strong>Pattern recognition:</strong> Identify common architectural patterns and anti-patterns</li>
-        <li><strong>Knowledge synthesis:</strong> Combine insights from vast codebases and documentation</li>
-        <li><strong>Error prevention:</strong> Catch potential issues before they become problems</li>
-      </ul>
-
-      <h2>The Human Element</h2>
-      <p>Despite these advances, the human element remains crucial. AI excels at pattern matching and code generation, but software development is ultimately about solving human problems. The creativity, empathy, and strategic thinking that developers bring to the table are irreplaceable.</p>
-
-      <p>The future isn't about AI replacing developers—it's about AI amplifying human capabilities. We're moving toward a world where developers can focus more on high-level design, user experience, and creative problem-solving while AI handles more of the routine implementation details.</p>
-
-      <h2>Looking Ahead</h2>
-      <p>As we look to the future, I see several key trends emerging:</p>
-
-      <blockquote>
-        "The most successful developers of tomorrow will be those who learn to collaborate effectively with AI, using it as a powerful tool while maintaining their uniquely human perspective on problem-solving."
-      </blockquote>
-
-      <p>The integration of AI into software development is not just a technological shift—it's a cultural one. It requires us to rethink our processes, our roles, and our relationship with the tools we use every day.</p>
-
-      <p>What excites me most is the potential for AI to democratize software development, making it more accessible to people from diverse backgrounds while simultaneously raising the bar for what's possible in terms of software quality and innovation.</p>
-
-      <div class="article-footer">
-        <p><em>What are your thoughts on AI in software development? How has it changed your workflow? I'd love to hear your perspective.</em></p>
-      </div>
-    </article>
+    
+    <div v-else class="not-found">
+      <h1>Article Not Found</h1>
+      <p>The article you're looking for doesn't exist.</p>
+      <router-link to="/thoughts" class="back-link btn-press">← Back to Thoughts</router-link>
+    </div>
   </div>
 </template>
 
-<script lang="js">
+<script>
+import SkeletonLoader from '@/components/SkeletonLoader.vue'
+
 export default {
-  name: 'ArticleView'
+  name: 'ArticleView',
+  components: {
+    SkeletonLoader
+  },
+  data() {
+    return {
+      article: null,
+      articles: [],
+      loading: true,
+      error: null
+    }
+  },
+  async created() {
+    await this.fetchArticles()
+    this.loadArticle()
+  },
+  watch: {
+    async '$route'() {
+      if (this.articles.length === 0) {
+        await this.fetchArticles()
+      }
+      this.loadArticle()
+    }
+  },
+  methods: {
+    async fetchArticles() {
+      try {
+        const response = await fetch(`${import.meta.env.BASE_URL}data/articles.json`)
+        if (!response.ok) throw new Error('Failed to fetch articles')
+        this.articles = await response.json()
+      } catch (err) {
+        this.error = 'Failed to load articles'
+        console.error('Articles fetch error:', err)
+      } finally {
+        this.loading = false
+      }
+    },
+    loadArticle() {
+      const slug = this.$route.params.slug
+      this.article = this.articles.find(article => article.slug === slug)
+    }
+  }
 }
 </script>
 
@@ -116,7 +141,13 @@ export default {
   flex-wrap: wrap;
 }
 
-.category {
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
   background: rgba(99, 102, 241, 0.1);
   color: #4f46e5;
   padding: 4px 12px;
@@ -134,7 +165,7 @@ export default {
   font-weight: 500;
 }
 
-.article-header h1 {
+.article-title {
   font-size: var(--font-size-6xl);
   font-weight: var(--font-weight-extrabold);
   line-height: var(--line-height-tight);
@@ -291,8 +322,78 @@ export default {
   border: 1px solid rgba(99, 102, 241, 0.1);
 }
 
+.coming-soon {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.coming-soon-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.coming-soon h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #6366f1;
+}
+
+.coming-soon p {
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.not-found {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.not-found h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.not-found p {
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin-bottom: 32px;
+}
+
 .article-footer p {
   color: #6366f1;
+  font-style: italic;
+}
+
+/* Dark mode */
+.dark .not-found h1 {
+  color: #f1f5f9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .article-view {
+    padding: 20px 16px;
+  }
+  
+  .article-header {
+    padding: 32px 24px;
+  }
+  
+  .article-title {
+    font-size: 36px;
+  }
+  
+  .article-subtitle {
+    font-size: 18px;
+  }
+  
+  .article-content {
+    padding: 32px 24px;
+  }
+}6f1;
   font-size: 17px;
   font-weight: 500;
   margin: 0;

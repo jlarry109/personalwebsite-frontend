@@ -58,7 +58,7 @@
           </div>
           
           <div class="form-actions">
-            <button type="submit" class="submit-btn" :disabled="isSubmitting || !isFormValid">
+            <button type="submit" class="submit-btn btn-press btn-ripple" :disabled="isSubmitting || !isFormValid">
               <div class="btn-content">
                 <div v-if="isSubmitting" class="spinner"></div>
                 <i v-else-if="messageSent" class="fas fa-check"></i>
@@ -125,17 +125,17 @@
           <div class="contact-details">
             <h3>Social</h3>
             <div class="social-icons">
-              <a href="#" class="social-icon twitter" title="Twitter">
-                <i class="fab fa-twitter"></i>
+              <a href="#" class="social-icon twitter btn-bounce" title="Twitter">
+                <i class="fab fa-twitter icon-bounce"></i>
               </a>
-              <a href="#" class="social-icon linkedin" title="LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
+              <a href="#" class="social-icon linkedin btn-bounce" title="LinkedIn">
+                <i class="fab fa-linkedin-in icon-glow"></i>
               </a>
-              <a href="#" class="social-icon github" title="GitHub">
-                <i class="fab fa-github"></i>
+              <a href="#" class="social-icon github btn-bounce" title="GitHub">
+                <i class="fab fa-github icon-rotate"></i>
               </a>
-              <a href="#" class="social-icon instagram" title="Instagram">
-                <i class="fab fa-instagram"></i>
+              <a href="#" class="social-icon instagram btn-bounce" title="Instagram">
+                <i class="fab fa-instagram icon-pulse"></i>
               </a>
             </div>
           </div>
