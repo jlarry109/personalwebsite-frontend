@@ -393,7 +393,10 @@ export default {
   .article-content {
     padding: 32px 24px;
   }
-}6f1;
+}
+
+.article-footer p {
+  color: #6366f1;
   font-size: 17px;
   font-weight: 500;
   margin: 0;

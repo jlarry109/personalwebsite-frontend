@@ -1,22 +1,65 @@
 [
   {
     "id": 1,
+    "schoolName": "University of Oxford",
+    "degree": "Doctor of Philosophy (DPhil) in Mathematical Modelling",
+    "city": "Oxford",
+    "province": "Oxfordshire",
+    "country": "United Kingdom",
+    "startYear": 2024,
+    "endYear": 2025,
+    "gpa": "Distinction",
+    "coursework": [
+      "Advanced Mathematical Modelling",
+      "Computational Methods",
+      "Statistical Analysis"
+    ],
+    "achievements": [
+      "Rhodes Scholar",
+      "Published 3 research papers",
+      "Teaching Assistant for undergraduate courses"
+    ]
+  },
+  {
+    "id": 2,
     "schoolName": "Duke University",
     "degree": "Master of Science in Electrical and Computer Engineering",
     "city": "Durham",
     "province": "North Carolina",
     "country": "United States",
     "startYear": 2022,
-    "endYear": 2024
+    "endYear": 2024,
+    "gpa": "4.0/4.0",
+    "coursework": [
+      "Machine Learning",
+      "Computer Vision",
+      "Signal Processing"
+    ],
+    "achievements": [
+      "Dean's List (4 semesters)",
+      "Graduate Research Assistant",
+      "IEEE Student Member"
+    ]
   },
   {
-    "id": 2,
+    "id": 3,
     "schoolName": "University of Manchester",
     "degree": "Masters in Biomedical Engineering",
     "city": "Manchester",
     "province": "Greater Manchester",
     "country": "United Kingdom",
     "startYear": 2019,
-    "endYear": 2020
+    "endYear": 2020,
+    "gpa": "First Class Honours",
+    "coursework": [
+      "Biomechanics",
+      "Medical Device Design",
+      "Biomedical Signal Processing"
+    ],
+    "achievements": [
+      "Best Thesis Award",
+      "President of Engineering Society",
+      "Volunteer at local hospital"
+    ]
   }
 ]

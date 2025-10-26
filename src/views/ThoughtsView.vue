@@ -53,19 +53,25 @@
       </AnimatedCard>
     </div>
     
-    <div v-if="filteredArticles.length === 0" class="no-results">
-      <p>No articles found for the selected tags.</p>
-    </div>
+    <EmptyState 
+      v-if="!loading && !error && filteredArticles.length === 0" 
+      type="no-results"
+      title="No Articles Found"
+      description="Try adjusting your filters or check back later for new content."
+      action-text="Clear Filters"
+      @action="clearFilters"
+    />
   </div>
 </template>
 
 <script lang="js">
 import AnimatedCard from '@/components/AnimatedCard.vue';
 import SkeletonLoader from '@/components/SkeletonLoader.vue';
+import EmptyState from '@/components/EmptyState.vue';
 
 export default {
   name: 'ThoughtsView',
-  components: { AnimatedCard, SkeletonLoader },
+  components: { AnimatedCard, SkeletonLoader, EmptyState },
   data() {
     return {
       selectedTags: [],

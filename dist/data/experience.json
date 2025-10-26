@@ -5,7 +5,14 @@
     "position": "Systems Engineer",
     "startDate": "2019-06-01",
     "endDate": "2021-12-31",
-    "description": "Developed and maintained web applications using Java and Spring Boot."
+    "description": "Developed and maintained web applications using Java and Spring Boot.",
+    "location": "Seattle, WA",
+    "achievements": [
+      "Improved system performance by 40% through optimization",
+      "Led migration of legacy systems to cloud infrastructure",
+      "Mentored 3 junior developers"
+    ],
+    "technologies": ["Java", "Spring Boot", "AWS", "Docker"]
   },
   {
     "id": 2,
@@ -13,7 +20,14 @@
     "position": "Machine Learning Engineer",
     "startDate": "2022-01-10",
     "endDate": "2025-04-26",
-    "description": "Leading a team of developers and working on scalable microservices architecture."
+    "description": "Leading a team of developers and working on scalable microservices architecture.",
+    "location": "Cupertino, CA",
+    "achievements": [
+      "Developed ML models with 95% accuracy for product recommendations",
+      "Reduced inference time by 60% through model optimization",
+      "Published 2 research papers on deep learning"
+    ],
+    "technologies": ["Python", "TensorFlow", "PyTorch", "Kubernetes"]
   },
   {
     "id": 3,
@@ -21,6 +35,13 @@
     "position": "Applied Scientist",
     "startDate": "2025-04-27",
     "endDate": null,
-    "description": "Leading a team of developers and working on scalable microservices architecture."
+    "description": "Leading a team of developers and working on scalable microservices architecture.",
+    "location": "San Francisco, CA",
+    "achievements": [
+      "Research and development of AGI systems",
+      "Leading cross-functional teams of 15+ researchers",
+      "Contributing to breakthrough AI safety protocols"
+    ],
+    "technologies": ["Python", "JAX", "Transformers", "CUDA"]
   }
 ]

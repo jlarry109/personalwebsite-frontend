@@ -2,21 +2,25 @@
   <div class="timeline-container">
     <div class="timeline-header">
       <h3>{{ title }}</h3>
-      <button @click="$emit('toggle-view')" class="view-toggle">
+      <button @click="$emit('toggle-view')" class="view-toggle btn-press">
         {{ isExperience ? '📋' : '🎓' }} Switch View
       </button>
     </div>
     <div class="timeline">
       <div class="timeline-line-bg"></div>
+      <div class="timeline-progress" :style="{ height: scrollProgress + '%' }"></div>
       <div 
         v-for="(item, index) in items" 
         :key="item.id" 
         class="timeline-item"
         :style="{ animationDelay: `${index * 0.2}s` }">
         <div class="timeline-marker">
-          <div class="timeline-dot" :class="{ active: expandedItems.includes(item.id) }">
-            <span class="timeline-icon">{{ isExperience ? '💼' : '🎓' }}</span>
+          <div class="timeline-connector" v-if="index > 0"></div>
+          <div class="timeline-dot" :class="{ active: expandedItems.includes(item.id), current: item.current }">
+            <span class="timeline-icon icon-bounce">{{ isExperience ? '💼' : '🎓' }}</span>
+            <div class="dot-pulse" v-if="item.current"></div>
           </div>
+          <div class="timeline-connector bottom" v-if="index < items.length - 1"></div>
         </div>
         <div class="timeline-content">
           <div class="timeline-date-marker">
@@ -25,7 +29,7 @@
               <span class="month">{{ getMonth(item) }}</span>
             </div>
           </div>
-          <div class="timeline-card" @click="toggleExpanded(item.id)">
+          <div class="timeline-card card-lift" @click="toggleExpanded(item.id)">
             <div class="card-header">
               <div class="card-title">
                 <h4 v-if="isExperience">{{ item.position }}</h4>
@@ -37,7 +41,7 @@
                   <span v-else-if="!isExperience" class="location">📍 {{ item.city }}, {{ item.country }}</span>
                 </div>
               </div>
-              <div class="expand-btn" :class="{ expanded: expandedItems.includes(item.id) }">
+              <div class="expand-btn btn-press" :class="{ expanded: expandedItems.includes(item.id) }">
                 <span>{{ expandedItems.includes(item.id) ? '−' : '+' }}</span>
               </div>
             </div>
@@ -57,7 +61,7 @@
                 <div v-if="item.technologies" class="tech-section">
                   <h5>🛠️ Technologies</h5>
                   <div class="tech-tags">
-                    <span v-for="tech in item.technologies" :key="tech" class="tech-tag">
+                    <span v-for="tech in item.technologies" :key="tech" class="tech-tag animate-stagger">
                       {{ tech }}
                     </span>
                   </div>
@@ -66,7 +70,7 @@
                 <div v-if="item.coursework" class="coursework-section">
                   <h5>📚 Key Coursework</h5>
                   <div class="coursework-tags">
-                    <span v-for="course in item.coursework" :key="course" class="course-tag">
+                    <span v-for="course in item.coursework" :key="course" class="course-tag animate-stagger">
                       {{ course }}
                     </span>
                   </div>
@@ -94,8 +98,16 @@ export default {
   },
   data() {
     return {
-      expandedItems: []
+      expandedItems: [],
+      scrollProgress: 0
     }
+  },
+  mounted() {
+    this.updateScrollProgress()
+    window.addEventListener('scroll', this.updateScrollProgress)
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.updateScrollProgress)
   },
   methods: {
     toggleExpanded(itemId) {
@@ -126,6 +138,15 @@ export default {
       } else {
         return `${startStr} - Present`;
       }
+    },
+    updateScrollProgress() {
+      const container = this.$el?.querySelector('.timeline')
+      if (!container) return
+      
+      const rect = container.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const progress = Math.max(0, Math.min(100, ((windowHeight - rect.top) / (rect.height + windowHeight)) * 100))
+      this.scrollProgress = progress
     }
   }
 };
@@ -185,9 +206,19 @@ export default {
   top: 0;
   bottom: 0;
   width: 3px;
+  background: #e5e7eb;
+  border-radius: 2px;
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 60px;
+  top: 0;
+  width: 3px;
   background: linear-gradient(to bottom, #6366f1, #8b5cf6, #06b6d4);
   border-radius: 2px;
-  opacity: 0.3;
+  transition: height 0.3s ease;
+  z-index: 1;
 }
 
 .timeline-item {
@@ -212,6 +243,24 @@ export default {
   z-index: 3;
 }
 
+.timeline-connector {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  background: #d1d5db;
+  transform: translateX(-50%);
+}
+
+.timeline-connector:not(.bottom) {
+  top: -24px;
+  height: 24px;
+}
+
+.timeline-connector.bottom {
+  bottom: -24px;
+  height: 24px;
+}
+
 .timeline-dot {
   width: 50px;
   height: 50px;
@@ -229,6 +278,32 @@ export default {
 .timeline-dot.active {
   transform: scale(1.1);
   box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+.timeline-dot.current {
+  animation: currentPulse 2s infinite;
+}
+
+.dot-pulse {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  border: 2px solid #6366f1;
+  opacity: 0.6;
+  animation: dotPulse 2s infinite;
+}
+
+@keyframes currentPulse {
+  0%, 100% { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3), 0 0 0 0 rgba(99, 102, 241, 0.7); }
+  50% { box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3), 0 0 0 10px rgba(99, 102, 241, 0); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 0.3; }
 }
 
 .timeline-icon {
