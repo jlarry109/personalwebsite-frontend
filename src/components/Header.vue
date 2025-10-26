@@ -69,7 +69,7 @@
     
     <div class="hero-content">
       <h1 class="hero-title text-gradient-animated">Welcome to My Personal Website</h1>
-      <p class="hero-subtitle lead">Explore my projects, skills, and experiences</p>
+      <p class="hero-subtitle lead">Discover innovative solutions, technical expertise, and professional journey</p>
       <div class="hero-cta">
         <button @click="scrollToPortfolio" class="cta-button btn-press btn-ripple">Explore Portfolio</button>
       </div>
@@ -478,6 +478,9 @@ export default {
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 32px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Floating Particles */
