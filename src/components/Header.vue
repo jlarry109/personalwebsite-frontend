@@ -484,6 +484,15 @@ export default {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .hero-subtitle {
+    text-align: left;
+    hyphens: none;
+    word-spacing: normal;
+  }
 }
 
 /* Floating Particles */
