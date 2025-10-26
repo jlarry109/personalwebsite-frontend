@@ -47,6 +47,7 @@ onMounted(() => {
 @import "@/assets/css/backgrounds.css";
 @import "@/assets/css/micro-interactions.css";
 @import "@/assets/css/advanced-effects.css";
+@import "@/assets/css/enhanced-interactions.css";
 
 #app {
   display: flex;

@@ -23,7 +23,9 @@
             :key="category"
             @click="toggleCategory(category)"
             :class="['category-btn', { active: selectedCategories.includes(category) }]"
-            class="category-filter">
+            class="category-filter btn-enhanced focus-ring click-ripple"
+            :aria-pressed="selectedCategories.includes(category)"
+            :aria-label="`Filter by ${category} category`">
             {{ getCategoryIcon(category) }} {{ category }}
           </button>
         </div>
@@ -39,11 +41,16 @@
         <li 
           v-for="(skill, index) in filteredSkills" 
           :key="skill.id" 
-          class="skill-item animate-card"
+          class="skill-item animate-card card-interactive hover-tilt"
           :class="`category-${skill.category}`"
           :style="{ animationDelay: `${index * 0.1}s` }"
+          :tabindex="0"
+          :aria-label="`${skill.skillName} - ${skill.proficiencyLevel} level with ${skill.yearsOfExperience} years experience`"
+          v-tilt="8"
           @mouseenter="showTooltip = skill.id"
-          @mouseleave="showTooltip = null">
+          @mouseleave="showTooltip = null"
+          @focus="showTooltip = skill.id"
+          @blur="showTooltip = null">
           <div class="skill-content">
             <div class="skill-header">
               <span class="skill-name">{{ skill.skillName }}</span>
@@ -196,6 +203,9 @@ export default {
   cursor: pointer;
   transition: all 0.3s ease;
   color: #64748b;
+  outline: none;
+  position: relative;
+  overflow: hidden;
 }
 
 .category-filter:hover {
@@ -204,12 +214,41 @@ export default {
   transform: translateY(-2px);
 }
 
+.category-filter:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.category-filter:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .category-filter.active {
   background: #6366f1;
   border-color: #6366f1;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.category-filter::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.category-filter:active::before {
+  width: 200px;
+  height: 200px;
 }
 
 .skill-list {
@@ -240,6 +279,7 @@ export default {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  outline: none;
 }
 
 .animate-card {
@@ -283,6 +323,17 @@ export default {
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.12), 0 15px 15px -5px rgba(0, 0, 0, 0.08);
   border-color: #cbd5e1;
+}
+
+.skill-item:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  transform: translateY(-2px) scale(1.01);
+}
+
+.skill-item:active {
+  transform: translateY(-2px) scale(0.99);
+  transition: all 0.1s ease;
 }
 
 .skill-item:hover .card-glow {

@@ -13,12 +13,13 @@
           :key="tag"
           @click="toggleTag(tag)"
           :class="{ active: selectedTags.includes(tag) }"
-          class="tag-button btn-press"
+          class="tag-button btn-enhanced focus-ring click-ripple"
+          v-magnetic="0.1"
         >
           {{ tag }}
         </button>
       </div>
-      <button @click="clearFilters" class="clear-button btn-bounce" v-if="selectedTags.length > 0">
+      <button @click="clearFilters" class="clear-button btn-enhanced focus-ring click-pulse" v-if="selectedTags.length > 0">
         Clear All
       </button>
     </div>
@@ -35,9 +36,12 @@
         :key="article.id"
         category="default"
         :delay="index * 100"
-        class="thought-card card-lift animate-stagger" 
+        class="thought-card card-interactive hover-tilt animate-stagger" 
         :class="{ 'coming-soon': article.comingSoon }"
+        v-tilt="6"
+        :tabindex="article.comingSoon ? -1 : 0"
         @click="article.comingSoon ? null : goToArticle(article.slug)"
+        @keydown.enter="article.comingSoon ? null : goToArticle(article.slug)"
         :style="{ cursor: article.comingSoon ? 'default' : 'pointer' }"
       >
         <div class="card-header">

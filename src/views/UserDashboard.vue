@@ -1,5 +1,12 @@
 <template>
   <div class="user-dashboard bg-mesh bg-noise">
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Keyboard Navigation Help -->
+    <div class="sr-only" aria-live="polite" id="keyboard-help">
+      Use arrow keys to navigate tabs, or press 1-8 for direct access. Swipe left/right on mobile.
+    </div>
     <nav :class="{ 'nav-scrolled': isScrolled }">
       <div class="container container-xl">
         <div class="nav-content">
@@ -7,16 +14,28 @@
             <AnimatedBreadcrumb :items="[{ name: activeTab, icon: getTabIcon(activeTab) }]" />
           </div>
           <div class="tabs-scroll-container">
-            <div class="tabs">
+            <div class="tabs" ref="tabContainer" role="tablist" aria-label="Portfolio sections">
               <div class="tab-slider" :style="sliderStyle"></div>
               <button 
                 v-for="(tab, index) in tabs" 
                 :key="tab" 
                 @click="changeTab(tab)"
                 :class="{ active: activeTab === tab }"
-                class="tab-button">
+                class="tab-button tab-enhanced focus-ring click-ripple"
+                :aria-label="`Switch to ${tab} tab`"
+                :aria-selected="activeTab === tab"
+                :aria-controls="`panel-${tab.toLowerCase().replace(/\s/g, '-')}`"
+                role="tab"
+                :tabindex="activeTab === tab ? 0 : -1">
                 {{ tab }}
               </button>
+              
+              <!-- Swipe Indicators -->
+              <div 
+                v-if="swipeIndicator" 
+                :class="['swipe-indicator', swipeIndicator, { show: swipeIndicator }]">
+                <i :class="swipeIndicator === 'left' ? 'fas fa-chevron-left' : 'fas fa-chevron-right'"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -37,7 +56,8 @@
             <img 
               src="/profile.jpg" 
               alt="Jones Larry" 
-              class="profile-image" 
+              class="profile-image hover-magnetic" 
+              v-magnetic="0.2"
               @error="handleImageError"
               @load="handleImageLoad"
             />
@@ -55,7 +75,13 @@
     <!-- Smooth Scrolling Sections -->
     <div class="tab-content bg-pattern-overlay">
       <div class="container container-xl">
-        <section :id="activeTab.toLowerCase().replace(/\s/g, '-')" class="fade-in-up">
+        <section 
+          id="main-content" 
+          :id="`panel-${activeTab.toLowerCase().replace(/\s/g, '-')}`"
+          :class="activeTab.toLowerCase().replace(/\s/g, '-')" 
+          class="fade-in-up"
+          role="tabpanel"
+          :aria-labelledby="`tab-${activeTab.toLowerCase().replace(/\s/g, '-')}`">
           <transition name="fade" mode="out-in">
             <component :is="getTabComponent(activeTab)" :key="activeTab" />
           </transition>
@@ -84,6 +110,8 @@ import ParallaxContainer from "@/components/effects/ParallaxContainer.vue";
 import ParticleSystem from "@/components/effects/ParticleSystem.vue";
 
 import { useIntersectionObserver } from "@/composables/useIntersectionObserver.js";
+import { useGestures } from "@/composables/useGestures.js";
+import { ref } from 'vue';
 
 export default {
   components: {
@@ -101,6 +129,11 @@ export default {
     ParallaxContainer,
     ParticleSystem
   },
+  setup() {
+    const tabContainer = ref(null);
+    useGestures(tabContainer);
+    return { tabContainer };
+  },
   data() {
     return {
       tabs: ["About Me", "Personal Info", "Education", "Experience", "Skills", "Certifications", "Projects", "Testimonials"],
@@ -114,7 +147,8 @@ export default {
       breadcrumbs: [
         { name: 'Home', path: '/' },
         { name: 'Portfolio', path: '/portfolio' }
-      ]
+      ],
+      swipeIndicator: null
     };
   },
   mounted() {
@@ -123,6 +157,8 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
     this.startTypingAnimation();
     this.initIntersectionObserver();
+    this.initGestureHandlers();
+    this.initKeyboardNavigation();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile);
@@ -254,6 +290,49 @@ export default {
     },
     handleImageLoad(event) {
       console.log('Profile image loaded successfully:', event.target.src);
+    },
+    initGestureHandlers() {
+      if (this.tabContainer) {
+        this.tabContainer.addEventListener('swipe', (e) => {
+          const { direction } = e.detail;
+          const currentIndex = this.tabs.indexOf(this.activeTab);
+          
+          if (direction === 'left' && currentIndex < this.tabs.length - 1) {
+            this.changeTab(this.tabs[currentIndex + 1]);
+            this.showSwipeIndicator('right');
+          } else if (direction === 'right' && currentIndex > 0) {
+            this.changeTab(this.tabs[currentIndex - 1]);
+            this.showSwipeIndicator('left');
+          }
+        });
+      }
+    },
+    showSwipeIndicator(direction) {
+      this.swipeIndicator = direction;
+      setTimeout(() => {
+        this.swipeIndicator = null;
+      }, 300);
+    },
+    initKeyboardNavigation() {
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        const currentIndex = this.tabs.indexOf(this.activeTab);
+        
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+          e.preventDefault();
+          this.changeTab(this.tabs[currentIndex - 1]);
+        } else if (e.key === 'ArrowRight' && currentIndex < this.tabs.length - 1) {
+          e.preventDefault();
+          this.changeTab(this.tabs[currentIndex + 1]);
+        } else if (e.key >= '1' && e.key <= '8') {
+          e.preventDefault();
+          const tabIndex = parseInt(e.key) - 1;
+          if (tabIndex < this.tabs.length) {
+            this.changeTab(this.tabs[tabIndex]);
+          }
+        }
+      });
     }
   }
 };
@@ -738,6 +817,38 @@ nav.nav-scrolled {
   height: 100%;
   background: rgba(0, 0, 0, 0.4); /* Dark overlay */
 }
+/* Swipe Indicators */
+.swipe-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background: rgba(99, 102, 241, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.swipe-indicator.left {
+  left: 10px;
+}
+
+.swipe-indicator.right {
+  right: 10px;
+}
+
+.swipe-indicator.show {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -750,6 +861,11 @@ nav.nav-scrolled {
   }
   
   button:hover, button.active {
+    transform: none;
+  }
+  
+  .hover-magnetic:hover,
+  .hover-tilt:hover {
     transform: none;
   }
 }

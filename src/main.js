@@ -9,11 +9,15 @@ import App from "./App.vue";
 import router from "./router";
 import Parallax from "./directives/parallax";
 import Scrolly from "./directives/scrolly";
+import magneticDirective from './directives/magnetic.js';
+import tiltDirective from './directives/tilt.js';
 
 const app = createApp(App);
 
 app.directive("parallax", Parallax);
 app.directive("scrolly", Scrolly);
+app.directive('magnetic', magneticDirective);
+app.directive('tilt', tiltDirective);
 
 app.use(router);
 app.mount("#app");
