@@ -401,6 +401,7 @@ export default {
   font-size: 16px;
   color: #1f2937;
   line-height: 1.6;
+  text-align: left;
 }
 
 /* Social Links with Brand Colors */
