@@ -22,18 +22,26 @@
     </nav>
 
 
-    <!-- Hero Section -->
-    <section id="intro">
-      <div class="particles-container">
-        <div v-for="n in 50" :key="n" class="particle" :style="getParticleStyle(n)"></div>
-      </div>
-      <div class="hero-content">
-        <div class="hero-image">
-          <img src="@/assets/hq1-hero-2550px.jpg" alt="Jones Larry" class="profile-image" />
+    <!-- Hero Section with Enhanced Effects -->
+    <section id="intro" class="particle-bg">
+      <ParticleSystem 
+        :particle-count="60"
+        particle-color="#60a5fa"
+        :connection-distance="120"
+        :mouse-interaction="true"
+      >
+        <div class="hero-content">
+          <ParallaxContainer :speed="-0.3">
+            <div class="hero-image">
+              <img src="@/assets/hq1-hero-2550px.jpg" alt="Jones Larry" class="profile-image hover-glow-intense" />
+            </div>
+          </ParallaxContainer>
+          
+          <h1 class="typing-text text-gradient-animated">{{ displayedText }}<span class="cursor">|</span></h1>
+          
+          <p class="hero-subtitle lead">Crafting intelligent solutions through continuous growth</p>
         </div>
-        <h1 class="typing-text text-gradient-animated">{{ displayedText }}<span class="cursor">|</span></h1>
-        <p class="hero-subtitle lead">Crafting intelligent solutions through continuous growth</p>
-      </div>
+      </ParticleSystem>
     </section>
 
     <!-- Section Divider -->
@@ -65,6 +73,9 @@ import PersonalInfoTab from "@/components/user/PersonalInfoTab.vue";
 import SectionDivider from "@/components/SectionDivider.vue";
 import FloatingActionButtons from "@/components/FloatingActionButtons.vue";
 import AnimatedBreadcrumb from "@/components/AnimatedBreadcrumb.vue";
+import ParallaxContainer from "@/components/effects/ParallaxContainer.vue";
+import ParticleSystem from "@/components/effects/ParticleSystem.vue";
+
 import { useIntersectionObserver } from "@/composables/useIntersectionObserver.js";
 
 export default {
@@ -79,7 +90,9 @@ export default {
     PersonalInfoTab,
     SectionDivider,
     FloatingActionButtons,
-    AnimatedBreadcrumb
+    AnimatedBreadcrumb,
+    ParallaxContainer,
+    ParticleSystem
   },
   data() {
     return {
@@ -481,6 +494,30 @@ nav.nav-scrolled {
   margin-top: 20px;
   margin-bottom: 200px;
   padding: 15px;
+}
+
+.content-section {
+  position: relative;
+  z-index: 2;
+  min-height: auto;
+  height: auto;
+}
+
+.content-card {
+  margin: 20px 0;
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  min-height: 58px;
 }
 
 .fade-enter-active {

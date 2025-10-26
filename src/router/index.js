@@ -4,6 +4,7 @@ import AdminDashboard from '@/views/AdminDashboard.vue';
 import UserDashboard from '@/views/UserDashboard.vue';
 import ThoughtsView from '@/views/ThoughtsView.vue';
 import ArticleView from '@/views/ArticleView.vue';
+import EffectsDemo from '@/components/EffectsDemo.vue';
 
 const routes = [
   // Home page is now the read-only UserDashboard
@@ -14,6 +15,9 @@ const routes = [
 
   // Individual article view
   { path: '/thoughts/:slug', name: 'article', component: ArticleView },
+
+  // Effects demo page
+  { path: '/effects-demo', name: 'effects-demo', component: EffectsDemo },
 
   // Separate Login page for users who want to log in
   { path: '/login', name: 'login', component: LoginView },

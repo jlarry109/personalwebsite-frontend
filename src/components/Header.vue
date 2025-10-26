@@ -11,7 +11,7 @@
       <ul class="nav-links">
         <li><router-link to="/" active-class="active">Home</router-link></li>
         <li><router-link to="/thoughts" active-class="active">Thoughts</router-link></li>
-        <li><router-link to="/elements" active-class="active">Elements</router-link></li>
+        <li><router-link to="/effects-demo" active-class="active">Effects Demo</router-link></li>
       </ul>
       
       <!-- Social Icons -->
@@ -43,7 +43,7 @@
       <ul class="mobile-nav-links">
         <li><router-link to="/" @click="closeMobileMenu">Home</router-link></li>
         <li><router-link to="/thoughts" @click="closeMobileMenu">Thoughts</router-link></li>
-        <li><router-link to="/elements" @click="closeMobileMenu">Elements</router-link></li>
+        <li><router-link to="/effects-demo" @click="closeMobileMenu">Effects Demo</router-link></li>
       </ul>
       <div class="mobile-social">
         <a href="#" class="mobile-social-link"><i class="fab fa-twitter icon-bounce"></i></a>
