@@ -44,7 +44,7 @@
 
     <!-- Smooth Scrolling Sections -->
         <div class="tab-content">
-          <section :id="activeTab.toLowerCase().replace(/\s/g, '-')">
+          <section :id="activeTab.toLowerCase().replace(/\s/g, '-')" class="fade-in-up">
             <transition name="fade" mode="out-in">
               <component :is="getTabComponent(activeTab)" :key="activeTab" />
             </transition>
@@ -62,6 +62,7 @@ import ProjectTab from "@/components/user/ProjectTab.vue";
 import CertificationTab from "@/components/user/CertificationTab.vue";
 import TestimonialTab from "@/components/user/TestimonialTab.vue";
 import PersonalInfoTab from "@/components/user/PersonalInfoTab.vue";
+import { useIntersectionObserver } from "@/composables/useIntersectionObserver.js";
 
 export default {
   data() {
@@ -85,6 +86,7 @@ export default {
     window.addEventListener('resize', this.checkMobile);
     window.addEventListener('scroll', this.handleScroll);
     this.startTypingAnimation();
+    this.initIntersectionObserver();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkMobile);
@@ -163,6 +165,24 @@ export default {
     },
     handleScroll() {
       this.isScrolled = window.scrollY > 100;
+    },
+    initIntersectionObserver() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-in');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+      
+      // Observe all sections with animation classes
+      this.$nextTick(() => {
+        const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in, .slide-in-bottom');
+        animatedElements.forEach(el => observer.observe(el));
+      });
     }
   }
 };

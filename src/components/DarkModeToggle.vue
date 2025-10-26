@@ -37,7 +37,7 @@ export default {
   font-size: 20px;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
   transition: all 0.3s ease;
-  z-index: 1000;
+  z-index: 1001;
 }
 
 .dark-mode-toggle:hover {

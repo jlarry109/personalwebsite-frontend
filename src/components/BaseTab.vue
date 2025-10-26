@@ -1,12 +1,16 @@
 <template>
-  <div class="base-tab">
-    <h1 class="tab-title">{{ title }}</h1>
+  <div class="base-tab fade-in-up" ref="tabRef">
+    <h1 class="tab-title slide-in-bottom">{{ title }}</h1>
     <div class="divider"></div>
-    <slot></slot> <!-- Each tab will define its own content here -->
+    <div class="tab-content-wrapper scale-in">
+      <slot></slot> <!-- Each tab will define its own content here -->
+    </div>
   </div>
 </template>
 
 <script>
+import { useIntersectionObserver } from '@/composables/useIntersectionObserver.js';
+
 export default {
   props: {
     title: {
@@ -14,6 +18,34 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    this.initAnimations();
+  },
+  methods: {
+    initAnimations() {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-in');
+              // Stagger child animations
+              const children = entry.target.querySelectorAll('.slide-in-bottom, .scale-in');
+              children.forEach((child, index) => {
+                setTimeout(() => {
+                  child.classList.add('animate-in');
+                }, index * 150);
+              });
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+      
+      if (this.$refs.tabRef) {
+        observer.observe(this.$refs.tabRef);
+      }
+    }
+  }
 };
 </script>
 

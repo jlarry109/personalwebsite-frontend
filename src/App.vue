@@ -5,6 +5,9 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import LoadingSplash from "@/components/LoadingSplash.vue";
 import DarkModeToggle from "@/components/DarkModeToggle.vue";
+import ScrollToTop from "@/components/ScrollToTop.vue";
+import LoadingProgress from "@/components/LoadingProgress.vue";
+import CursorTrail from "@/components/CursorTrail.vue";
 import { useFavicon } from "@/composables/useFavicon.js";
 import { useDarkMode } from "@/composables/useDarkMode.js";
 
@@ -18,8 +21,10 @@ onMounted(() => {
 </script>
 
 <template>
+  <LoadingProgress />
   <LoadingSplash />
   <DarkModeToggle />
+  <CursorTrail />
   <Header />
   <main>
     <RouterView v-slot="{ Component, route }">
@@ -29,10 +34,12 @@ onMounted(() => {
     </RouterView>
   </main>
   <Footer />
+  <ScrollToTop />
 </template>
 
 <style>
 @import "@/assets/css/main.css";
+@import "@/assets/css/animations.css";
 
 #app {
   display: flex;
