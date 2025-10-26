@@ -471,6 +471,7 @@ export default {
   color: white;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  font-family: 'Playfair Display', serif;
 }
 
 .hero-subtitle {
@@ -480,7 +481,7 @@ export default {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   font-weight: 300;
   letter-spacing: 0.5px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Lucida Handwriting', cursive;
 }
 
 /* Floating Particles */
