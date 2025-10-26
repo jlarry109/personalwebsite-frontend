@@ -407,17 +407,18 @@ export default {
   text-align: center;
   padding: 120px 24px 80px;
   background: 
-    linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #6366f1 50%, #8b5cf6 75%, #ec4899 100%),
-    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
-  background-size: 400% 400%, 100% 100%;
-  animation: gradientShift 15s ease infinite;
+    radial-gradient(ellipse at top, #0f0f23 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%),
+    linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(236, 72, 153, 0.1) 100%);
+  background-size: 100% 100%, 200% 200%;
+  animation: subtleShift 20s ease infinite;
   position: relative;
   overflow: hidden;
 }
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%, 0% 0%; }
-  50% { background-position: 100% 50%, 100% 100%; }
+@keyframes subtleShift {
+  0%, 100% { background-position: 0% 0%, 0% 0%; }
+  33% { background-position: 0% 0%, 100% 0%; }
+  66% { background-position: 0% 0%, 50% 100%; }
 }
 
 .hero-header::before {
@@ -428,17 +429,16 @@ export default {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(ellipse at 25% 25%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 75% 75%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 10%, rgba(236, 72, 153, 0.3) 0%, transparent 40%),
-    radial-gradient(ellipse at 10% 90%, rgba(6, 182, 212, 0.3) 0%, transparent 40%);
+    radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.2) 0%, transparent 30%);
   pointer-events: none;
-  animation: colorShift 20s ease infinite;
+  animation: colorPulse 25s ease infinite;
 }
 
-@keyframes colorShift {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.8; }
+@keyframes colorPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
 }
 
 .hero-header::after {
@@ -616,17 +616,16 @@ export default {
 
 .dark .hero-header {
   background: 
-    linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%),
-    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
-  background-size: 400% 400%, 100% 100%;
+    radial-gradient(ellipse at top, #000000 0%, #0a0a0f 30%, #0f0f1a 60%, #1a1a2e 100%),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.15) 50%, rgba(236, 72, 153, 0.15) 100%);
+  background-size: 100% 100%, 200% 200%;
 }
 
 .dark .hero-header::before {
   background: 
-    radial-gradient(ellipse at 25% 25%, rgba(99, 102, 241, 0.6) 0%, transparent 50%),
-    radial-gradient(ellipse at 75% 75%, rgba(139, 92, 246, 0.6) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 10%, rgba(236, 72, 153, 0.4) 0%, transparent 40%),
-    radial-gradient(ellipse at 10% 90%, rgba(6, 182, 212, 0.4) 0%, transparent 40%);
+    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.3) 0%, transparent 30%);
 }
 
 .dark .particle {
