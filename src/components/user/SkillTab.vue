@@ -347,10 +347,14 @@ export default {
 }
 
 .skill-name {
-  font-weight: 700;
-  color: #1e293b;
-  font-size: 17px;
-  letter-spacing: -0.025em;
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: var(--font-size-lg);
+  letter-spacing: var(--letter-spacing-tight);
+  font-variation-settings: 'wght' 700;
 }
 
 .experience-counter {

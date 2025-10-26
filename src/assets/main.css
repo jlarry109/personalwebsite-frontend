@@ -1,4 +1,5 @@
 @import './base.css';
+@import './css/typography.css';
 
 /* Base styles for mobile-first */
 #app {

@@ -146,9 +146,14 @@ export default {
 
 .timeline-header h3 {
   margin: 0;
-  font-size: 28px;
-  color: #1f2937;
-  font-weight: 700;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
 }
 
 .view-toggle {
@@ -315,10 +320,14 @@ export default {
 
 .timeline-card h4 {
   margin: 0 0 8px 0;
-  font-size: 20px;
-  color: #1f2937;
-  font-weight: 700;
-  line-height: 1.3;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .timeline-subtitle {

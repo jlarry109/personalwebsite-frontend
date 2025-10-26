@@ -184,11 +184,15 @@ export default {
 }
 
 h3 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 12px;
-  line-height: 1.3;
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 .project-description {

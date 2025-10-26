@@ -78,14 +78,18 @@ export default {
 }
 
 .tab-title {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-extrabold);
   margin-bottom: 32px;
-  color: #111827;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   border-bottom: 1px solid #e5e7eb;
   padding-bottom: 16px;
-  line-height: 1.2;
-  letter-spacing: -0.025em;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  font-variation-settings: 'wght' 800;
 }
 
 .divider {

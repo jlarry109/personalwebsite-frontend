@@ -1,8 +1,8 @@
 <template>
   <div class="thoughts-view">
     <div class="page-header">
-      <h1>Thoughts</h1>
-      <p>Perspectives on technology, society, and the future</p>
+      <h1 class="text-gradient-primary">Thoughts</h1>
+      <p class="lead">Perspectives on technology, society, and the future</p>
     </div>
     
     <div class="filter-section">
@@ -23,9 +23,11 @@
     </div>
     
     <div class="thoughts-grid">
-      <article 
-        v-for="article in filteredArticles" 
+      <AnimatedCard 
+        v-for="(article, index) in filteredArticles" 
         :key="article.id"
+        category="default"
+        :delay="index * 100"
         class="thought-card" 
         :class="{ 'coming-soon': article.comingSoon }"
         @click="goToArticle(article.slug)"
@@ -36,12 +38,12 @@
           </div>
           <time>{{ article.date }}</time>
         </div>
-        <h2>{{ article.title }}</h2>
+        <h2 class="text-gradient-secondary">{{ article.title }}</h2>
         <p>{{ article.excerpt }}</p>
         <div class="card-footer">
           <span class="read-time">{{ article.readTime }}</span>
         </div>
-      </article>
+      </AnimatedCard>
     </div>
     
     <div v-if="filteredArticles.length === 0" class="no-results">
@@ -51,8 +53,11 @@
 </template>
 
 <script lang="js">
+import AnimatedCard from '@/components/AnimatedCard.vue';
+
 export default {
   name: 'ThoughtsView',
+  components: { AnimatedCard },
   data() {
     return {
       selectedTags: [],
@@ -146,17 +151,19 @@ export default {
 }
 
 .page-header h1 {
-  font-size: 42px;
-  font-weight: 700;
-  color: #1e293b;
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-extrabold);
   margin-bottom: 12px;
-  letter-spacing: -0.025em;
+  letter-spacing: var(--letter-spacing-tighter);
+  line-height: var(--line-height-tight);
+  font-variation-settings: 'wght' 800;
 }
 
 .page-header p {
-  font-size: 18px;
+  font-size: var(--font-size-xl);
   color: #64748b;
-  font-weight: 400;
+  font-weight: var(--font-weight-light);
+  font-variation-settings: 'wght' 300;
 }
 
 .thoughts-grid {
@@ -166,37 +173,9 @@ export default {
 }
 
 .thought-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   padding: 32px;
-  border-radius: 16px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
   cursor: pointer;
-}
-
-.thought-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.thought-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
-  border-color: #cbd5e1;
-}
-
-.thought-card:hover::before {
-  opacity: 1;
+  position: relative;
 }
 
 .thought-card.coming-soon {
@@ -301,19 +280,21 @@ export default {
 }
 
 .thought-card h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1e293b;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
   margin-bottom: 16px;
-  line-height: 1.3;
-  letter-spacing: -0.025em;
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
+  font-variation-settings: 'wght' 700;
 }
 
 .thought-card p {
   color: #475569;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
   margin-bottom: 20px;
+  font-weight: var(--font-weight-normal);
+  font-variation-settings: 'wght' 400;
 }
 
 .card-footer {

@@ -37,8 +37,8 @@
         <div class="hero-image">
           <img src="@/assets/hq1-hero-2550px.jpg" alt="Jones Larry" class="profile-image" />
         </div>
-        <h1 class="typing-text">{{ displayedText }}<span class="cursor">|</span></h1>
-        <p class="hero-subtitle">Crafting intelligent solutions through continuous growth</p>
+        <h1 class="typing-text text-gradient-animated">{{ displayedText }}<span class="cursor">|</span></h1>
+        <p class="hero-subtitle lead">Crafting intelligent solutions through continuous growth</p>
       </div>
     </section>
 

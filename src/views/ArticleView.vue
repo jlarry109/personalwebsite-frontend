@@ -135,23 +135,24 @@ export default {
 }
 
 .article-header h1 {
-  font-size: 52px;
-  font-weight: 800;
-  color: #1e293b;
-  line-height: 1.1;
+  font-size: var(--font-size-6xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-tight);
   margin-bottom: 20px;
-  letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+  letter-spacing: var(--letter-spacing-tighter);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-variation-settings: 'wght' 800;
 }
 
 .article-subtitle {
-  font-size: 20px;
+  font-size: var(--font-size-xl);
   color: #64748b;
-  line-height: 1.5;
-  font-weight: 400;
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-light);
+  font-variation-settings: 'wght' 300;
 }
 
 .article-content {
@@ -174,11 +175,12 @@ export default {
 }
 
 .article-content p {
-  font-size: 19px;
-  line-height: 1.8;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-loose);
   color: #374151;
   margin-bottom: 28px;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
+  font-variation-settings: 'wght' 400;
 }
 
 .article-content p:first-of-type {
@@ -201,13 +203,18 @@ export default {
 }
 
 .article-content h2 {
-  font-size: 32px;
-  font-weight: 800;
-  color: #1e293b;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-extrabold);
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 48px 0 24px 0;
-  line-height: 1.2;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
   position: relative;
   padding-bottom: 12px;
+  font-variation-settings: 'wght' 800;
 }
 
 .article-content h2::after {
@@ -254,11 +261,16 @@ export default {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
   border-radius: 16px;
   font-style: italic;
-  font-size: 22px;
-  color: #4f46e5;
+  font-size: var(--font-size-2xl);
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   position: relative;
   border-left: 4px solid #6366f1;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  font-variation-settings: 'wght' 500;
+  line-height: var(--line-height-relaxed);
 }
 
 .article-content blockquote::before {
