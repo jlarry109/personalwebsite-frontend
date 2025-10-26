@@ -489,8 +489,8 @@ export default {
 
 @media (max-width: 768px) {
   .hero-subtitle {
-    text-align: left;
-    hyphens: none;
+    text-align: justify;
+    hyphens: auto;
     word-spacing: normal;
   }
 }
