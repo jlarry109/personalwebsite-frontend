@@ -2,10 +2,11 @@
   <BaseTab title="Projects">
     <template #default>
       <template v-if="loading">
-        <div class="skeleton-loader">
-          <div class="skeleton-text"></div>
-          <div class="skeleton-text short"></div>
-          <div class="skeleton-text"></div>
+        <div class="skeleton-grid">
+          <SkeletonLoader 
+            v-for="n in 3" 
+            :key="n" 
+            type="card" />
         </div>
       </template>
       <template v-else-if="error">
@@ -27,7 +28,10 @@
               :images="project.screenshots"
               :autoplay="true"
               :interval="5000" />
-            <img v-else :src="getProjectImage(project.id)" :alt="project.title" />
+            <ProgressiveImage 
+              v-else 
+              :src="getProjectImage(project.id)" 
+              :alt="project.title" />
             <div class="image-overlay"></div>
           </div>
           <div class="project-content">
@@ -68,9 +72,11 @@ import BaseTab from "@/components/BaseTab.vue";
 import AnimatedCard from "@/components/AnimatedCard.vue";
 import ImageCarousel from "@/components/ImageCarousel.vue";
 import TechBadge from "@/components/TechBadge.vue";
+import SkeletonLoader from "@/components/SkeletonLoader.vue";
+import ProgressiveImage from "@/components/ProgressiveImage.vue";
 
 export default {
-  components: { BaseTab, AnimatedCard, ImageCarousel, TechBadge },
+  components: { BaseTab, AnimatedCard, ImageCarousel, TechBadge, SkeletonLoader, ProgressiveImage },
   data() {
     return {
       projects: [],
@@ -299,31 +305,15 @@ h3 {
   opacity: 1;
 }
 
-.skeleton-loader {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 15px;
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
 }
 
-.skeleton-text {
-  width: 100%;
-  height: 15px;
-  background: linear-gradient(90deg, #f3f3f3, #e0e0e0, #f3f3f3);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-.skeleton-text.short {
-  width: 60%;
-}
-
-@keyframes loading {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
+@media (max-width: 768px) {
+  .skeleton-grid {
+    grid-template-columns: 1fr;
   }
 }
 

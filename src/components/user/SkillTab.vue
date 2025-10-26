@@ -1,10 +1,11 @@
 <template>
   <BaseTab title="Skills">
     <template v-if="loading">
-      <div class="skeleton-loader">
-        <div class="skeleton-text"></div>
-        <div class="skeleton-text short"></div>
-        <div class="skeleton-text"></div>
+      <div class="skeleton-grid">
+        <SkeletonLoader 
+          v-for="n in 6" 
+          :key="n" 
+          type="skill" />
       </div>
     </template>
     <template v-else-if="error">
@@ -80,9 +81,10 @@
 import BaseTab from "@/components/BaseTab.vue";
 import SearchFilter from "@/components/SearchFilter.vue";
 import AnimatedCounter from "@/components/AnimatedCounter.vue";
+import SkeletonLoader from "@/components/SkeletonLoader.vue";
 
 export default {
-  components: { BaseTab, SearchFilter, AnimatedCounter },
+  components: { BaseTab, SearchFilter, AnimatedCounter, SkeletonLoader },
   data() {
     return {
       skills: [],
@@ -490,44 +492,15 @@ export default {
   box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
 }
 
-.skeleton-loader {
+.skeleton-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 0;
+  gap: 16px;
 }
 
-.skeleton-text {
-  height: 120px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%);
-  background-size: 200% 100%;
-  animation: loading 2s ease-in-out infinite;
-  border-radius: 16px;
-  position: relative;
-  overflow: hidden;
-}
-
-.skeleton-text::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  animation: shimmer 1.5s infinite;
-}
-
-.skeleton-text.short {
-  width: 60%;
-}
-
-@keyframes loading {
-  0%, 100% {
-    background-position: -200% 0;
-  }
-  50% {
-    background-position: 200% 0;
+@media (max-width: 768px) {
+  .skeleton-grid {
+    grid-template-columns: 1fr;
   }
 }
 

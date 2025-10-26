@@ -20,13 +20,21 @@
         </button>
       </div>
       
-      <TimelineView 
-        v-if="showTimeline"
-        :items="experiences"
-        title="Work Experience"
-        :is-experience="true"
-        @toggle-view="showTimeline = false"
-      />
+      <template v-if="showTimeline">
+        <div v-if="loading" class="skeleton-timeline">
+          <SkeletonLoader 
+            v-for="n in 3" 
+            :key="n" 
+            type="timeline" />
+        </div>
+        <TimelineView 
+          v-else
+          :items="experiences"
+          title="Work Experience"
+          :is-experience="true"
+          @toggle-view="showTimeline = false"
+        />
+      </template>
       
       <div v-else class="experience-list">
         <AnimatedCard 
@@ -52,9 +60,10 @@
 import BaseTab from "@/components/BaseTab.vue";
 import AnimatedCard from "@/components/AnimatedCard.vue";
 import TimelineView from "@/components/TimelineView.vue";
+import SkeletonLoader from "@/components/SkeletonLoader.vue";
 
 export default {
-  components: { BaseTab, AnimatedCard, TimelineView },
+  components: { BaseTab, AnimatedCard, TimelineView, SkeletonLoader },
   data() {
     return {
       experiences: [],
