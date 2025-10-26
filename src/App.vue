@@ -40,6 +40,7 @@ onMounted(() => {
 <style>
 @import "@/assets/css/main.css";
 @import "@/assets/css/animations.css";
+@import "@/assets/css/backgrounds.css";
 
 #app {
   display: flex;

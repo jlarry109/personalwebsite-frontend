@@ -17,7 +17,7 @@
       <img src="@/assets/hq1-hero-2550px.jpg" alt="Jones Larry" class="office-img" />
       <div class="personal-info-grid">
         <div class="info-section">
-          <div class="flip-card" v-for="(item, index) in contactInfo" :key="index">
+          <div class="flip-card" v-for="(item, index) in contactInfo" :key="index" @click="toggleFlip(index)" :class="{ touched: flippedCards.includes(index) }">
             <div class="flip-card-inner">
               <div class="flip-card-front">
                 <div class="animated-icon" :class="item.iconClass">
@@ -90,6 +90,7 @@ export default {
       error: null,
       isDownloading: false,
       downloadSuccess: false,
+      flippedCards: [],
     };
   },
   computed: {
@@ -192,6 +193,13 @@ export default {
       } finally {
         this.isDownloading = false;
       }
+    },
+    toggleFlip(index) {
+      if (this.flippedCards.includes(index)) {
+        this.flippedCards = this.flippedCards.filter(i => i !== index);
+      } else {
+        this.flippedCards.push(index);
+      }
     }
   },
   mounted() {
@@ -248,7 +256,8 @@ export default {
   cursor: pointer;
 }
 
-.flip-card:hover .flip-card-inner {
+.flip-card:hover .flip-card-inner,
+.flip-card.touched .flip-card-inner {
   transform: rotateY(180deg);
 }
 

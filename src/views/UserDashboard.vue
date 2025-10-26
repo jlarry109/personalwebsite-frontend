@@ -1,15 +1,9 @@
 <template>
-  <div class="user-dashboard">
+  <div class="user-dashboard bg-mesh bg-noise">
     <nav :class="{ 'nav-scrolled': isScrolled }">
       <div class="nav-content">
         <div class="breadcrumb-container">
-          <div class="breadcrumbs">
-            <span v-for="(crumb, index) in breadcrumbs" :key="index" class="breadcrumb">
-              {{ crumb.name }}
-              <span v-if="index < breadcrumbs.length - 1" class="breadcrumb-separator">→</span>
-            </span>
-            <span class="breadcrumb active-breadcrumb">{{ activeTab }}</span>
-          </div>
+          <AnimatedBreadcrumb :items="[{ name: activeTab, icon: getTabIcon(activeTab) }]" />
         </div>
         <div class="tabs-scroll-container">
           <div class="tabs">
@@ -42,14 +36,20 @@
       </div>
     </section>
 
+    <!-- Section Divider -->
+    <SectionDivider type="gradient" />
+    
     <!-- Smooth Scrolling Sections -->
-        <div class="tab-content">
-          <section :id="activeTab.toLowerCase().replace(/\s/g, '-')" class="fade-in-up">
-            <transition name="fade" mode="out-in">
-              <component :is="getTabComponent(activeTab)" :key="activeTab" />
-            </transition>
-          </section>
-        </div>
+    <div class="tab-content bg-pattern-overlay">
+      <section :id="activeTab.toLowerCase().replace(/\s/g, '-')" class="fade-in-up">
+        <transition name="fade" mode="out-in">
+          <component :is="getTabComponent(activeTab)" :key="activeTab" />
+        </transition>
+      </section>
+    </div>
+    
+    <!-- Floating Action Buttons -->
+    <FloatingActionButtons @action-clicked="handleFabAction" />
   </div>
 </template>
 
@@ -62,9 +62,25 @@ import ProjectTab from "@/components/user/ProjectTab.vue";
 import CertificationTab from "@/components/user/CertificationTab.vue";
 import TestimonialTab from "@/components/user/TestimonialTab.vue";
 import PersonalInfoTab from "@/components/user/PersonalInfoTab.vue";
+import SectionDivider from "@/components/SectionDivider.vue";
+import FloatingActionButtons from "@/components/FloatingActionButtons.vue";
+import AnimatedBreadcrumb from "@/components/AnimatedBreadcrumb.vue";
 import { useIntersectionObserver } from "@/composables/useIntersectionObserver.js";
 
 export default {
+  components: {
+    AboutMeTab,
+    ExperienceTab,
+    EducationTab,
+    SkillTab,
+    ProjectTab,
+    CertificationTab,
+    TestimonialTab,
+    PersonalInfoTab,
+    SectionDivider,
+    FloatingActionButtons,
+    AnimatedBreadcrumb
+  },
   data() {
     return {
       tabs: ["About Me", "Personal Info", "Education", "Experience", "Skills", "Certifications", "Projects", "Testimonials"],
@@ -183,6 +199,33 @@ export default {
         const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in, .slide-in-bottom');
         animatedElements.forEach(el => observer.observe(el));
       });
+    },
+    getTabIcon(tab) {
+      const icons = {
+        "About Me": "fas fa-user",
+        "Personal Info": "fas fa-id-card",
+        "Education": "fas fa-graduation-cap",
+        "Experience": "fas fa-briefcase",
+        "Skills": "fas fa-code",
+        "Certifications": "fas fa-certificate",
+        "Projects": "fas fa-folder-open",
+        "Testimonials": "fas fa-quote-left"
+      };
+      return icons[tab] || "fas fa-star";
+    },
+    handleFabAction(action) {
+      // Handle floating action button clicks
+      if (action.section) {
+        const tabMap = {
+          'about-me': 'About Me',
+          'skills': 'Skills',
+          'projects': 'Projects'
+        };
+        
+        if (tabMap[action.section]) {
+          this.changeTab(tabMap[action.section]);
+        }
+      }
     }
   }
 };
