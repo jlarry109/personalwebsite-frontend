@@ -1,9 +1,10 @@
 <template>
   <div class="thoughts-view">
-    <div class="page-header">
-      <h1 class="text-gradient-primary">Thoughts</h1>
-      <p class="lead">Perspectives on technology, society, and the future</p>
-    </div>
+    <div class="container container-xl">
+      <div class="page-header">
+        <h1 class="text-gradient-primary">Thoughts</h1>
+        <p class="lead">Perspectives on technology, society, and the future</p>
+      </div>
     
     <div class="filter-section">
       <div class="tag-filters">
@@ -53,14 +54,15 @@
       </AnimatedCard>
     </div>
     
-    <EmptyState 
-      v-if="!loading && !error && filteredArticles.length === 0" 
-      type="no-results"
-      title="No Articles Found"
-      description="Try adjusting your filters or check back later for new content."
-      action-text="Clear Filters"
-      @action="clearFilters"
-    />
+      <EmptyState 
+        v-if="!loading && !error && filteredArticles.length === 0" 
+        type="no-results"
+        title="No Articles Found"
+        description="Try adjusting your filters or check back later for new content."
+        action-text="Clear Filters"
+        @action="clearFilters"
+      />
+    </div>
   </div>
 </template>
 
@@ -127,30 +129,28 @@ export default {
 
 <style scoped>
 .thoughts-view {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
   min-height: 100vh;
   background: #f8fafc;
+  padding: var(--space-3xl) 0;
 }
 
 .page-header {
   text-align: center;
-  margin-bottom: 48px;
-  padding: 32px 0;
+  margin-bottom: var(--space-3xl);
+  padding: var(--space-2xl) 0;
 }
 
 .page-header h1 {
-  font-size: var(--font-size-5xl);
+  font-size: var(--text-4xl);
   font-weight: var(--font-weight-extrabold);
-  margin-bottom: 12px;
+  margin-bottom: var(--space-sm);
   letter-spacing: var(--letter-spacing-tighter);
   line-height: var(--line-height-tight);
   font-variation-settings: 'wght' 800;
 }
 
 .page-header p {
-  font-size: var(--font-size-xl);
+  font-size: var(--text-lg);
   color: #64748b;
   font-weight: var(--font-weight-light);
   font-variation-settings: 'wght' 300;
@@ -158,12 +158,12 @@ export default {
 
 .thoughts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  gap: var(--grid-gap);
 }
 
 .thought-card {
-  padding: 32px;
+  padding: var(--space-xl);
   cursor: pointer;
   position: relative;
 }
@@ -308,28 +308,31 @@ export default {
 
 @media (max-width: 768px) {
   .thoughts-view {
-    padding: 20px 16px;
+    padding: var(--space-2xl) 0;
+  }
+  
+  .page-header {
+    padding: var(--space-lg) 0;
   }
   
   .page-header h1 {
-    font-size: 32px;
+    font-size: var(--text-3xl);
   }
   
   .page-header p {
-    font-size: 16px;
+    font-size: var(--text-base);
   }
   
   .thoughts-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    gap: var(--grid-gap-sm);
   }
   
   .thought-card {
-    padding: 24px;
+    padding: var(--space-lg);
   }
   
   .thought-card h2 {
-    font-size: 20px;
+    font-size: var(--text-xl);
   }
 }
 </style>

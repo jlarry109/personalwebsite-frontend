@@ -7,6 +7,7 @@ import LoadingSplash from "@/components/LoadingSplash.vue";
 import DarkModeToggle from "@/components/DarkModeToggle.vue";
 import ScrollToTop from "@/components/ScrollToTop.vue";
 import LoadingProgress from "@/components/LoadingProgress.vue";
+import StickyProgress from "@/components/StickyProgress.vue";
 import CursorTrail from "@/components/CursorTrail.vue";
 import PageTransition from "@/components/PageTransition.vue";
 import { useFavicon } from "@/composables/useFavicon.js";
@@ -24,6 +25,7 @@ onMounted(() => {
 <template>
   <LoadingProgress />
   <LoadingSplash />
+  <StickyProgress />
   <DarkModeToggle />
   <CursorTrail />
   <Header />
@@ -39,6 +41,7 @@ onMounted(() => {
 </template>
 
 <style>
+@import "@/assets/css/design-tokens.css";
 @import "@/assets/css/main.css";
 @import "@/assets/css/animations.css";
 @import "@/assets/css/backgrounds.css";

@@ -175,7 +175,7 @@ export default {
 
 <style scoped>
 .controls-section {
-  margin-bottom: 32px;
+  margin-bottom: var(--space-2xl);
 }
 
 .category-filters {
@@ -216,8 +216,8 @@ export default {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: var(--grid-gap);
   transition: all 0.4s ease;
 }
 
@@ -232,12 +232,11 @@ export default {
 }
 .skill-item {
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  padding: 24px;
+  padding: var(--space-lg);
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: 16px;
   position: relative;
   overflow: hidden;
   cursor: pointer;

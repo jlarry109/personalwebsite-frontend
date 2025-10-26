@@ -1,21 +1,23 @@
 <template>
   <div class="user-dashboard bg-mesh bg-noise">
     <nav :class="{ 'nav-scrolled': isScrolled }">
-      <div class="nav-content">
-        <div class="breadcrumb-container">
-          <AnimatedBreadcrumb :items="[{ name: activeTab, icon: getTabIcon(activeTab) }]" />
-        </div>
-        <div class="tabs-scroll-container">
-          <div class="tabs">
-            <div class="tab-slider" :style="sliderStyle"></div>
-            <button 
-              v-for="(tab, index) in tabs" 
-              :key="tab" 
-              @click="changeTab(tab)"
-              :class="{ active: activeTab === tab }"
-              class="tab-button">
-              {{ tab }}
-            </button>
+      <div class="container container-xl">
+        <div class="nav-content">
+          <div class="breadcrumb-container">
+            <AnimatedBreadcrumb :items="[{ name: activeTab, icon: getTabIcon(activeTab) }]" />
+          </div>
+          <div class="tabs-scroll-container">
+            <div class="tabs">
+              <div class="tab-slider" :style="sliderStyle"></div>
+              <button 
+                v-for="(tab, index) in tabs" 
+                :key="tab" 
+                @click="changeTab(tab)"
+                :class="{ active: activeTab === tab }"
+                class="tab-button">
+                {{ tab }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -31,12 +33,15 @@
         :mouse-interaction="true"
       >
         <div class="hero-content">
-          <ParallaxContainer :speed="-0.3">
-            <div class="hero-image">
-              <img src="@/assets/hq1-hero-2550px.jpg" alt="Jones Larry" class="profile-image hover-glow-intense" />
-            </div>
-          </ParallaxContainer>
-          
+          <div class="hero-image">
+            <img 
+              src="/profile.jpg" 
+              alt="Jones Larry" 
+              class="profile-image" 
+              @error="handleImageError"
+              @load="handleImageLoad"
+            />
+          </div>
           <h1 class="typing-text text-gradient-animated">{{ displayedText }}<span class="cursor">|</span></h1>
           
           <p class="hero-subtitle lead">Crafting intelligent solutions through continuous growth</p>
@@ -49,11 +54,13 @@
     
     <!-- Smooth Scrolling Sections -->
     <div class="tab-content bg-pattern-overlay">
-      <section :id="activeTab.toLowerCase().replace(/\s/g, '-')" class="fade-in-up">
-        <transition name="fade" mode="out-in">
-          <component :is="getTabComponent(activeTab)" :key="activeTab" />
-        </transition>
-      </section>
+      <div class="container container-xl">
+        <section :id="activeTab.toLowerCase().replace(/\s/g, '-')" class="fade-in-up">
+          <transition name="fade" mode="out-in">
+            <component :is="getTabComponent(activeTab)" :key="activeTab" />
+          </transition>
+        </section>
+      </div>
     </div>
     
     <!-- Floating Action Buttons -->
@@ -239,6 +246,14 @@ export default {
           this.changeTab(tabMap[action.section]);
         }
       }
+    },
+    handleImageError(event) {
+      console.error('Profile image failed to load:', event);
+      // Fallback to a different image or show placeholder
+      event.target.src = '/logo3.png';
+    },
+    handleImageLoad(event) {
+      console.log('Profile image loaded successfully:', event.target.src);
     }
   }
 };
@@ -246,9 +261,6 @@ export default {
 
 <style scoped>
 .user-dashboard {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 20px;
   background: #f8fafc;
   min-height: 100vh;
   transition: background-color 0.3s ease;
@@ -260,7 +272,19 @@ export default {
 
 @media (max-width: 768px) {
   .user-dashboard {
-    padding: 0 16px;
+    padding: 0;
+  }
+  
+  #intro {
+    padding: var(--space-4xl) var(--space-lg);
+  }
+  
+  .typing-text {
+    font-size: var(--text-3xl);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--text-lg);
   }
 }
 
@@ -269,8 +293,8 @@ export default {
 nav {
   position: sticky;
   top: 0;
-  z-index: 100;
-  padding: 20px;
+  z-index: var(--z-sticky);
+  padding: var(--space-lg);
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.3);
@@ -282,7 +306,8 @@ nav.nav-scrolled {
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.8);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 16px 20px;
+  padding: var(--space-md) var(--space-lg);
+  transform: translateY(0);
 }
 
 .dark nav {
@@ -297,11 +322,9 @@ nav.nav-scrolled {
 }
 
 .nav-content {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-md);
 }
 
 .breadcrumb-container {
@@ -372,19 +395,15 @@ nav.nav-scrolled {
 
 @media (max-width: 768px) {
   nav {
-    padding: 16px;
+    padding: var(--space-md);
   }
   
   nav.nav-scrolled {
-    padding: 12px 16px;
+    padding: var(--space-sm) var(--space-md);
   }
   
   .nav-content {
-    gap: 12px;
-  }
-  
-  .breadcrumbs {
-    font-size: 12px;
+    gap: var(--space-sm);
   }
   
   .tabs-scroll-container {
@@ -400,19 +419,14 @@ nav.nav-scrolled {
   }
   
   .tabs {
-    padding: 4px;
+    padding: var(--space-xs);
     min-width: max-content;
   }
   
   .tab-button {
-    padding: 10px 16px;
-    font-size: 13px;
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-sm);
     min-width: 100px;
-  }
-  
-  .tab-content {
-    margin-top: 16px;
-    padding: 16px;
   }
 }
 
@@ -491,9 +505,7 @@ nav.nav-scrolled {
 }
 
 .tab-content {
-  margin-top: 20px;
-  margin-bottom: 200px;
-  padding: 15px;
+  padding: var(--space-2xl) 0 var(--space-5xl) 0;
 }
 
 .content-section {
@@ -571,7 +583,7 @@ nav.nav-scrolled {
 
 #intro {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 120px 0;
+  padding: var(--space-5xl) 0;
   text-align: center;
   color: white;
   position: relative;
@@ -607,15 +619,29 @@ nav.nav-scrolled {
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .hero-image {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 10px;
 }
 
 .profile-image {
@@ -623,26 +649,40 @@ nav.nav-scrolled {
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  animation: profilePulse 3s ease-in-out infinite;
+  border: 4px solid rgba(139, 92, 246, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(139, 92, 246, 0.3);
+  animation: gentleZoom 4s ease-in-out infinite;
+  position: relative;
+  z-index: 20;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  background: rgba(139, 92, 246, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-@keyframes profilePulse {
+@keyframes gentleZoom {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(139, 92, 246, 0.3);
   }
   50% {
-    transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(139, 92, 246, 0.5);
   }
+}
+
+.profile-image:hover {
+  animation-play-state: paused;
+  transform: scale(1.1);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(139, 92, 246, 0.6);
+  transition: all 0.3s ease;
 }
 
 .typing-text {
-  font-size: 48px;
+  font-size: var(--text-4xl);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-md);
   letter-spacing: -0.025em;
   line-height: 1.1;
   min-height: 58px;
@@ -659,7 +699,7 @@ nav.nav-scrolled {
 }
 
 .hero-subtitle {
-  font-size: 20px;
+  font-size: var(--text-xl);
   opacity: 0.9;
   font-weight: 400;
   line-height: 1.5;
